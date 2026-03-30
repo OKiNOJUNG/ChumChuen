@@ -84,7 +84,7 @@
             flex-shrink: 0;
             transition: var(--transition-smooth);
             z-index: 100;
-            background: rgba(255,255,255,0.75) !important; /* Slightly more opaque */
+            background: rgba(255,255,255,0.75) !important; 
             margin-right: 20px;
             border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
         }
@@ -157,14 +157,14 @@
         .view-section { padding-bottom: 30px; animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- ROOM CARDS (HomeKit Style) --- */
+        /* --- ROOM CARDS --- */
         .card-room { 
             cursor: pointer; 
             position: relative; 
             border-radius: var(--radius-xl); 
             background: rgba(255,255,255,0.8);
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            overflow: visible; /* Allow pop */
+            overflow: visible; 
         }
         .card-room:hover { z-index: 10; transform: scale(1.08); }
         
@@ -183,7 +183,6 @@
         .room-booked { border-left: 0; background: linear-gradient(135deg, #fff9c4 0%, #fff176 100%); }
         .room-maintenance { border-left: 0; background: #f2f2f7; opacity: 0.7; }
         
-        /* Status Dot Indicator for Rooms */
         .card-room::before {
             content: '';
             position: absolute;
@@ -227,7 +226,7 @@
             box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
         }
 
-        /* --- TABLES (iOS Settings List Style) --- */
+        /* --- TABLES --- */
         .table-responsive {
             border-radius: var(--radius-md);
             overflow: hidden;
@@ -278,7 +277,6 @@
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
         
-        /* Popup Buttons */
         .popup-action-btn { 
             height: 55px; 
             font-size: 1.1rem; 
@@ -314,7 +312,6 @@
             .content-area { border-radius: 0; padding: 15px !important; }
         }
 
-        /* Print Override */
         @media print {
             body { background: white; }
             .no-print, .sidebar { display: none !important; }
@@ -513,11 +510,12 @@
 
             <div id="view-billing" class="view-section d-none">
                 <div class="card p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                         <div class="d-flex gap-2 w-75">
-                            <input type="text" id="bill-search" class="form-control" placeholder="🔍 ค้นหาบิล..." onkeyup="app.renderBillingTable()">
-                            <button class="btn btn-warning text-dark flex-shrink-0" onclick="app.downloadUnpaidAsImages()"><i class="fas fa-download"></i> ดาวน์โหลดใบแจ้งหนี้ (รูปภาพ)</button>
+                    <div class="d-flex flex-wrap gap-2 w-100 mb-4">
+                        <div class="d-flex gap-2 flex-grow-1">
+                            <input type="month" id="bill-month-filter" class="form-control" style="max-width: 160px;" onchange="app.renderBillingTable()">
+                            <input type="text" id="bill-search" class="form-control flex-grow-1" placeholder="🔍 ค้นหาบิล, เลขห้อง, ชื่อผู้เช่า..." onkeyup="app.renderBillingTable()">
                         </div>
+                        <button class="btn btn-warning text-dark flex-shrink-0" onclick="app.downloadUnpaidAsImages()"><i class="fas fa-download"></i> โหลดใบแจ้งหนี้ (ค้างชำระ)</button>
                         <button class="btn btn-light border rounded-circle" onclick="app.renderBillingTable()"><i class="fas fa-sync"></i></button>
                     </div>
                     <div class="table-responsive">
@@ -532,7 +530,7 @@
 
             <div id="view-settings" class="view-section d-none">
                 <div class="row g-4">
-                    <div class="col-md-7">
+                    <div class="col-md-6">
                         <div class="card p-4 h-100">
                             <h5 class="mb-3 fw-bold text-primary">จัดการอาคารและห้องพัก</h5>
                             
@@ -545,7 +543,7 @@
                             <h6 class="text-secondary ps-2 mb-3">รายชื่ออาคาร</h6>
                             <div class="table-responsive mb-4">
                                 <table class="table table-sm">
-                                    <thead><tr><th>ชื่อตึก</th><th>จำนวนชั้น</th><th>รวมห้อง</th><th>เพิ่มห้องอิสระ</th><th>ลบ</th></tr></thead>
+                                    <thead><tr><th>ชื่อตึก</th><th>จำนวนชั้น</th><th>รวมห้อง</th><th>เพิ่มห้อง</th><th>ลบ</th></tr></thead>
                                     <tbody id="buildingListBody"></tbody>
                                 </table>
                             </div>
@@ -568,7 +566,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <div class="card p-4 h-100">
                             <h5 class="mb-3 fw-bold text-primary">ตั้งค่าราคา & ระบบ</h5>
                             <div class="row g-3">
@@ -578,7 +576,26 @@
                                 <div class="col-6"><label class="form-label small text-muted">ค่ามัดจำ (เริ่มต้น)</label><input type="number" id="conf-deposit" class="form-control"></div>
                                 <div class="col-12"><label class="form-label small text-muted">รายวัน (บาท/วัน)</label><input type="number" id="conf-daily-rate" class="form-control"></div>
                             </div>
-                            <button class="btn btn-primary w-100 mt-4 py-2" onclick="app.saveConfig()">บันทึกการตั้งค่า</button>
+
+                            <hr class="my-4">
+                            
+                            <h6 class="text-primary"><i class="fas fa-money-check-alt"></i> บัญชีรับโอนเงิน (บัญชีหลัก)</h6>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6"><label class="small text-muted">ธนาคาร</label><input type="text" id="conf-bankName" class="form-control"></div>
+                                <div class="col-6"><label class="small text-muted">ชื่อบัญชี</label><input type="text" id="conf-accName" class="form-control"></div>
+                                <div class="col-6"><label class="small text-muted">เลขบัญชี</label><input type="text" id="conf-accNo" class="form-control"></div>
+                                <div class="col-6"><label class="small text-muted">Line ID</label><input type="text" id="conf-lineId" class="form-control"></div>
+                            </div>
+                            
+                            <h6 class="text-primary"><i class="fas fa-money-check-alt"></i> บัญชีรับโอนเงิน (สำหรับห้องพัก บ้าน 42)</h6>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6"><label class="small text-muted">ธนาคาร</label><input type="text" id="conf-bankName2" class="form-control"></div>
+                                <div class="col-6"><label class="small text-muted">ชื่อบัญชี</label><input type="text" id="conf-accName2" class="form-control"></div>
+                                <div class="col-6"><label class="small text-muted">เลขบัญชี</label><input type="text" id="conf-accNo2" class="form-control"></div>
+                                <div class="col-6"><label class="small text-muted">Line ID</label><input type="text" id="conf-lineId2" class="form-control"></div>
+                            </div>
+
+                            <button class="btn btn-primary w-100 mt-2 py-2" onclick="app.saveConfig()">บันทึกการตั้งค่าทั้งหมด</button>
                             
                             <hr class="my-4">
                             <h6 class="text-danger">Tools (Admin)</h6>
@@ -626,83 +643,49 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-6"><label class="small text-muted">ค่าอื่นๆ (+)</label><input type="number" id="bf-other" class="form-control" value="0" placeholder="0" onchange="app.calcBfTotal()"></div>
-                    <div class="col-6"><label class="small text-muted">วันที่เริ่มพัก</label><input type="date" id="bf-checkin" class="form-control"></div>
+                    <div class="col-6"><label class="small text-muted">ส่วนลดพิเศษ (บาท)</label><input type="number" id="bf-discount" class="form-control text-danger" value="0" onchange="app.calcBfTotal()"></div>
                 </div>
-                <div class="mb-3"><label class="small text-muted">ส่วนลดพิเศษ (บาท)</label><input type="number" id="bf-discount" class="form-control text-danger" value="0" onchange="app.calcBfTotal()"></div>
+                <div class="mb-3">
+                    <label class="small text-muted">วันที่เริ่มพัก</label><input type="date" id="bf-checkin" class="form-control">
+                </div>
                 
                 <div id="bf-daily-dates" class="row mb-3 d-none">
                      <div class="col-6"><label class="small text-muted">เข้า</label><input type="date" id="bf-in" class="form-control" onchange="app.calcBfTotal()"></div>
                      <div class="col-6"><label class="small text-muted">ออก</label><input type="date" id="bf-out" class="form-control" onchange="app.calcBfTotal()"></div>
                 </div>
                 
-                <div class="alert alert-primary d-flex justify-content-between align-items-center rounded-pill px-4"><span>ยอดสุทธิ:</span><strong id="bf-total-display">0 บาท</strong></div>
+                <div class="alert alert-primary d-flex justify-content-between align-items-center rounded-pill px-4"><span>ยอดสุทธิ (ไม่รวมน้ำไฟ):</span><strong id="bf-total-display">0 บาท</strong></div>
                 
                 <div class="mb-3">
                     <label class="small text-muted">หมายเหตุ</label>
                     <textarea id="bf-remarks" class="form-control" rows="2" placeholder="ระบุหมายเหตุ (ถ้ามี)"></textarea>
                 </div>
 
-                <button class="btn btn-primary w-100 py-2" onclick="app.saveBooking()">บันทึกข้อมูล</button>
+                <button class="btn btn-primary w-100 py-2" onclick="app.saveBooking()">บันทึกข้อมูล (อัปเดตบิลค้างชำระอัตโนมัติ)</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="billHistoryModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header border-0"><h5 class="modal-title fw-bold">ประวัติรอบบิล</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-            <div class="modal-body p-0">
-                <table class="table table-striped mb-0">
-                    <thead><tr><th>เดือน</th><th>ชื่อผู้เช่า</th><th>ค่าเช่า</th><th>น้ำ/ไฟ</th><th>รวม</th><th>สถานะ</th></tr></thead>
-                    <tbody id="billHistoryBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="customerModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header border-0"><h5 class="modal-title fw-bold">ข้อมูลลูกค้า</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-            <div class="modal-body">
-                <input type="hidden" id="cust-id">
-                <div class="form-floating mb-3">
-                    <input type="text" id="cust-name" class="form-control" placeholder="ชื่อ">
-                    <label>ชื่อ-นามสกุล</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" id="cust-phone" class="form-control" placeholder="โทร">
-                    <label>เบอร์โทร</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" id="cust-idcard" class="form-control" placeholder="บัตร">
-                    <label>เลขบัตรปชช.</label>
-                </div>
-                <label class="small text-muted mb-1">แนบเอกสาร</label><input type="file" id="cust-doc" class="form-control mb-3">
-                <button class="btn btn-success w-100 mt-2 py-2" onclick="app.saveCustomer()">บันทึก</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="invoiceModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-             </div>
-    </div>
-</div>
+<div class="modal fade" id="billHistoryModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header border-0"><h5 class="modal-title fw-bold">ประวัติรอบบิล</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-0"><table class="table table-striped mb-0"><thead><tr><th>เดือน</th><th>ชื่อผู้เช่า</th><th>ค่าเช่า</th><th>น้ำ/ไฟ</th><th>รวม</th><th>สถานะ</th></tr></thead><tbody id="billHistoryBody"></tbody></table></div></div></div></div>
+<div class="modal fade" id="customerModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header border-0"><h5 class="modal-title fw-bold">ข้อมูลลูกค้า</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="cust-id"><div class="form-floating mb-3"><input type="text" id="cust-name" class="form-control" placeholder="ชื่อ"><label>ชื่อ-นามสกุล</label></div><div class="form-floating mb-3"><input type="text" id="cust-phone" class="form-control" placeholder="โทร"><label>เบอร์โทร</label></div><div class="form-floating mb-3"><input type="text" id="cust-idcard" class="form-control" placeholder="บัตร"><label>เลขบัตรปชช.</label></div><label class="small text-muted mb-1">แนบเอกสาร</label><input type="file" id="cust-doc" class="form-control mb-3"><button class="btn btn-success w-100 mt-2 py-2" onclick="app.saveCustomer()">บันทึก</button></div></div></div></div>
+<div class="modal fade" id="invoiceModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"></div></div></div>
 
 <script>
-// --- LOGIC เดิมทั้งหมด 100% ---
 const db = { load:k=>JSON.parse(localStorage.getItem('hommy_'+k)||'[]'), save:(k,v)=>localStorage.setItem('hommy_'+k,JSON.stringify(v)), obj:k=>JSON.parse(localStorage.getItem('hommy_'+k)||'{}') };
 let data = { buildings:db.load('buildings'), rooms:db.load('rooms'), customers:db.load('customers'), bookings:db.load('bookings'), bills:db.load('bills'), config:db.obj('config') };
 if(!data.config.elecRate) data.config = { elecRate:8, waterRate:18, monthlyRent:3500, dailyRate:500, deposit:500 };
 
+// ตรวจสอบและใส่ค่าเริ่มต้นสำหรับบัญชีธนาคาร (หากยังไม่มี)
+if(!data.config.bankName) {
+    Object.assign(data.config, {
+        bankName: 'ไทยพาณิชย์ (SCB)', accName: 'Sumalee Rungnapapan', accNo: '035-2-12-4275', lineId: '0814990945',
+        bankName2: 'กรุงเทพฯ (BBL)', accName2: 'ณัฐธยาน์ รุ่งนภาพรรณ', accNo2: '8770-127-184', lineId2: '0890043915'
+    });
+}
+
 let state = { filterStatus: 'all', filterRoomUtil: null, page:{rooms:1, customers:1, utils:1, bills:1}, limit:10, userRole: null };
 
-// --- Helper Functions ---
 const thaiMonth = (ym) => {
     if(!ym || !ym.includes('-')) return ym;
     const [y, m] = ym.split('-');
@@ -721,7 +704,6 @@ const formatThaiDate = (dateString) => {
     return `${day} ${months[monthIndex]} ${year}`;
 };
 
-
 const app = {
     init: () => {
         if (localStorage.getItem('hommy_logged_in')) {
@@ -733,10 +715,18 @@ const app = {
              if(k==='deposit') ck = 'deposit';
              document.getElementById('conf-'+k).value = data.config[ck];
         });
-        document.getElementById('meterMonth').value = new Date().toISOString().slice(0,7);
+        
+        // Load bank settings
+        ['bankName','accName','accNo','lineId','bankName2','accName2','accNo2','lineId2'].forEach(k => {
+            const el = document.getElementById('conf-'+k);
+            if(el) el.value = data.config[k] || '';
+        });
+
+        const currentMonth = new Date().toISOString().slice(0,7);
+        document.getElementById('meterMonth').value = currentMonth;
+        document.getElementById('bill-month-filter').value = currentMonth;
     },
     
-    // --- LOGIN ---
     login: () => { 
         const u = document.getElementById('username').value;
         const p = document.getElementById('password').value;
@@ -773,7 +763,6 @@ const app = {
         if(window.innerWidth < 768) document.getElementById('mainSidebar').classList.remove('show');
     },
 
-    // --- Pagination Logic ---
     paginate: (items, page) => items.slice((page-1)*state.limit, page*state.limit),
     renderPager: (total, page, containerId, fnName) => {
         const pages = Math.ceil(total/state.limit);
@@ -831,7 +820,6 @@ const app = {
                 fRooms.forEach(r => {
                      let cl = `room-${r.status}`, txt = r.status==='available'?'ว่าง':r.status==='occupied'?'ไม่ว่าง':r.status==='booked'?'จอง':'ปรับปรุง';
                      let bg = r.status==='available'?'success':r.status==='occupied'?'primary':r.status==='booked'?'warning':'secondary';
-                     // Note: We use CSS classes for colors now, but keeping text logic for content
                      roomsHtml += `<div class="card card-room ${cl} p-2 text-center" style="width: 110px; min-height: 100px; display: inline-flex; flex-direction: column; justify-content: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal;" onclick="app.openRoomPopup('${r.id}')"><span class="badge room-status-badge ${cl === 'room-booked' ? 'text-dark' : ''}">${txt}</span><h5 class="mt-2 mb-0 fw-bold w-100">${r.id}</h5></div>`;
                 });
                 floorHtml += `<div class="floor-row"><div class="floor-label">ชั้น ${f}</div><div class="room-container d-flex flex-wrap gap-2">${roomsHtml}</div></div>`;
@@ -857,13 +845,11 @@ const app = {
         new bootstrap.Modal(document.getElementById('roomProfileModal')).show();
     },
 
-    // --- DEEP LINK & UTILITIES (UPDATED: BULK SAVE & AUTO PREV READING) ---
     goToUtilities: (roomId) => { bootstrap.Modal.getInstance(document.getElementById('roomProfileModal')).hide(); state.filterRoomUtil = roomId; app.nav('utilities'); },
     clearUtilFilter: () => { state.filterRoomUtil = null; app.renderUtilities(); },
     renderUtilities: () => {
         const month = document.getElementById('meterMonth').value;
 
-        // คำนวณเดือนก่อนหน้า
         const [cy, cm] = month.split('-').map(Number);
         let py = cy, pm = cm - 1;
         if (pm === 0) { pm = 12; py--; }
@@ -882,20 +868,16 @@ const app = {
             if(!booking) return;
             
             const bill = data.bills.find(b => b.roomId === r.id && b.month === month);
-            // หาบิลของเดือนที่แล้วเพื่อดึงเลขมิเตอร์ล่าสุด
             const prevBill = data.bills.find(b => b.roomId === r.id && b.month === prevMonthStr);
 
             let status = '<span class="text-danger fw-bold"><i class="fas fa-exclamation-circle"></i> รอจด</span>';
             
-            // Logic: ถ้ามีบิลเดือนนี้แล้ว ให้ใช้ค่าเดิม / ถ้ายังไม่มี ให้ดึงค่าใหม่ของเดือนที่แล้วมาเป็นค่าเก่าของเดือนนี้
             let ep = bill ? bill.elec.prev : (prevBill ? prevBill.elec.curr : '');
             let ec = bill ? bill.elec.curr : '';
             let wp = bill ? bill.water.prev : (prevBill ? prevBill.water.curr : '');
             let wc = bill ? bill.water.curr : '';
             
-            if(bill) { 
-                status = '<span class="text-success fw-bold"><i class="fas fa-check-circle"></i> บันทึกแล้ว</span>'; 
-            }
+            if(bill) { status = '<span class="text-success fw-bold"><i class="fas fa-check-circle"></i> บันทึกแล้ว</span>'; }
             
             const dataAttr = `data-room="${r.id}" data-occupants="${booking.occupants}" data-rent="${booking.rentPrice}" data-discount="${booking.discount||0}" data-other="${booking.otherCost||0}" data-cust="${data.customers.find(c=>c.id==booking.customerId)?.name||'-'}"`;
 
@@ -932,7 +914,7 @@ const app = {
             const occupants = parseInt(row.getAttribute('data-occupants'));
             const rent = parseFloat(row.getAttribute('data-rent'));
             const discount = parseFloat(row.getAttribute('data-discount'));
-            const other = parseFloat(row.getAttribute('data-other')); // From booking
+            const other = parseFloat(row.getAttribute('data-other')); 
             const custName = row.getAttribute('data-cust');
 
             const ep = parseFloat(row.querySelector('.ep').value);
@@ -940,30 +922,24 @@ const app = {
             const wp = parseFloat(row.querySelector('.wp').value);
             const wc = parseFloat(row.querySelector('.wc').value);
 
-            // Skip if any input is empty or NaN
             if(isNaN(ep) || isNaN(ec) || isNaN(wp) || isNaN(wc)) return;
 
             const eUnits = ec - ep;
             const wUnits = wc - wp;
             let wTotal = Math.max(wUnits * data.config.waterRate, (occupants===1?120:150));
             
-            // CALCULATION INCLUDES OTHER COST
             const total = (rent - discount + other) + (eUnits * data.config.elecRate) + wTotal;
 
             const newBill = { 
                 id: Date.now() + Math.floor(Math.random() * 1000), 
-                roomId, 
-                month, 
+                roomId, month, 
                 rent: rent - discount, 
-                otherCost: other, // Store in bill
+                otherCost: other, 
                 elec: { prev: ep, curr: ec, units: eUnits, total: eUnits * data.config.elecRate }, 
                 water: { prev: wp, curr: wc, units: wUnits, total: wTotal }, 
-                total, 
-                status: 'unpaid', 
-                tenantName: custName 
+                total, status: 'unpaid', tenantName: custName 
             };
             
-            // Remove old bill for this month/room
             data.bills = data.bills.filter(b => !(b.roomId === roomId && b.month === month));
             data.bills.push(newBill);
             count++;
@@ -990,17 +966,24 @@ const app = {
         });
         app.renderPager(filtered.length, state.page.customers, 'cust-pagination', 'renderCustomers');
     },
+    
+    // Updated: Filter logic supports Month + Search by Room/Tenant
     renderBillingTable: () => {
         const search = document.getElementById('bill-search').value.toLowerCase();
+        const monthFilter = document.getElementById('bill-month-filter').value;
+        
         let enriched = data.bills.map(b => {
              let tName = b.tenantName || '-';
              if(tName === '-') { const booking = data.bookings.find(k => k.roomId === b.roomId); if(booking) { const c = data.customers.find(x=>x.id==booking.customerId); if(c) tName=c.name; } }
              return {...b, tName};
         });
         
-        let filtered = enriched.filter(b => b.roomId.toLowerCase().includes(search) || b.tName.toLowerCase().includes(search));
+        let filtered = enriched.filter(b => {
+            const matchSearch = b.roomId.toLowerCase().includes(search) || b.tName.toLowerCase().includes(search);
+            const matchMonth = monthFilter ? b.month === monthFilter : true;
+            return matchSearch && matchMonth;
+        });
         
-        // SORTING: Sort by Room Number (Natural Sort)
         filtered.sort((a, b) => {
             return a.roomId.localeCompare(b.roomId, undefined, { numeric: true, sensitivity: 'base' });
         });
@@ -1011,8 +994,6 @@ const app = {
              const statusBadge = b.status==='paid'?'<span class="badge bg-success rounded-pill">จ่ายแล้ว</span>':'<span class="badge bg-danger rounded-pill">ค้าง</span>';
              const toggleBtnText = b.status==='paid'?'<i class="fas fa-undo"></i> ค้าง':'<i class="fas fa-check"></i> จ่ายแล้ว';
              const toggleBtnClass = b.status==='paid'?'btn-warning':'btn-success';
-             
-             // Invoice No Logic for display
              const invNo = `INV-${b.month.replace('-','')}-${b.roomId}`;
 
              tbody.innerHTML += `<tr><td><small class="text-muted">${invNo}</small></td><td><b class="text-primary">${b.roomId}</b></td><td>${b.tName}</td><td>-</td><td>${thaiMonth(b.month)}</td><td>${b.total.toLocaleString()}</td><td>${statusBadge}</td><td><button class="btn btn-sm btn-info me-1 rounded-circle text-white" onclick="app.printInvoice(${b.id})"><i class="fas fa-print"></i></button><button class="btn btn-sm ${toggleBtnClass} me-1 rounded-pill" onclick="app.togglePaidStatus(${b.id})">${toggleBtnText}</button><button class="btn btn-sm btn-danger rounded-circle" onclick="app.deleteBill(${b.id})"><i class="fas fa-trash"></i></button></td></tr>`;
@@ -1045,22 +1026,21 @@ const app = {
         alert('ลบบิลเรียบร้อย');
     },
 
-    // --- INVOICE GENERATION LOGIC ---
+    // Updated: Generate Invoice HTML reading config Bank
     generateInvoiceHTML: (b) => {
-        // 1. Determine Bank Info
-        let bankName = 'ไทยพาณิชย์ (SCB)';
-        let accName = 'Sumalee Rungnapapan';
-        let accNo = '035-2-12-4275';
-        let lineId = '0814990945';
+        // ดึงการตั้งค่าบัญชีธนาคาร
+        let bankName = data.config.bankName || 'ไทยพาณิชย์ (SCB)';
+        let accName = data.config.accName || 'Sumalee Rungnapapan';
+        let accNo = data.config.accNo || '035-2-12-4275';
+        let lineId = data.config.lineId || '0814990945';
 
         if (b.roomId.includes('บ้าน 42')) {
-            bankName = 'กรุงเทพฯ (BBL)';
-            accName = 'ณัฐธยาน์ รุ่งนภาพรรณ';
-            accNo = '8770-127-184';
-            lineId = '0890043915';
+            bankName = data.config.bankName2 || 'กรุงเทพฯ (BBL)';
+            accName = data.config.accName2 || 'ณัฐธยาน์ รุ่งนภาพรรณ';
+            accNo = data.config.accNo2 || '8770-127-184';
+            lineId = data.config.lineId2 || '0890043915';
         }
 
-        // 2. Fetch Active Booking
         const booking = data.bookings.find(k => k.roomId === b.roomId && k.status === 'active');
         const remarks = booking && booking.remarks ? `<tr class="text-muted" style="font-size:0.9rem;"><td class="py-2 ps-4" colspan="2"><em>*หมายเหตุ: ${booking.remarks}</em></td></tr>` : '';
         
@@ -1070,25 +1050,21 @@ const app = {
              if(c) displayTenant = c.name;
         }
 
-        // 3. Invoice Number
         const invNo = `INV-${b.month.replace('-','')}-${b.roomId}`;
         
-        // 4. Other Costs
         const otherCost = b.otherCost || 0;
         const otherRow = otherCost > 0 ? `<tr><td class="py-3">ค่าอื่นๆ (Other Costs)</td><td class="text-end py-3">${otherCost.toLocaleString()}</td></tr>` : '';
 
-        // 5. Rent Label Logic
         const [yStr, mStr] = b.month.split('-');
         const billYear = parseInt(yStr);
-        const billMonth = parseInt(mStr); // 1-12
+        const billMonth = parseInt(mStr);
 
-        let rentLabel = "ค่าเช่าห้องพักก่อนอยู่"; // Default Label for Old Tenant
+        let rentLabel = "ค่าเช่าห้องพักก่อนอยู่";
 
         if (booking) {
             const checkIn = new Date(booking.checkInDate);
-            // Check if Check-In Month == Bill Month
             if (checkIn.getFullYear() === billYear && (checkIn.getMonth() + 1) === billMonth) {
-                rentLabel = "ค่าเช่าห้องพัก"; // Label for New Tenant (First Month)
+                rentLabel = "ค่าเช่าห้องพัก"; 
             }
         }
 
@@ -1173,14 +1149,9 @@ const app = {
         `;
     },
     
-    // UPDATED: Print Invoice -> Show Modal with Download Button
     printInvoice: (id) => {
         const b = data.bills.find(x => x.id === id);
-        
-        // สร้าง HTML ของใบแจ้งหนี้
         const invoiceHTML = app.generateInvoiceHTML(b);
-        
-        // แก้ไข Modal Header ให้ปุ่มกดเรียกฟังก์ชัน downloadSingleInvoice
         const modalContent = `
              <div class="modal-header no-print border-0">
                 <button class="btn btn-primary rounded-pill shadow-sm" onclick="app.downloadSingleInvoice(${id})">
@@ -1192,94 +1163,57 @@ const app = {
                 ${invoiceHTML}
              </div>
         `;
-        
-        // อัปเดตเนื้อหาใน Modal และแสดงผล
         const modalEl = document.querySelector('#invoiceModal .modal-content');
         modalEl.innerHTML = modalContent;
         new bootstrap.Modal(document.getElementById('invoiceModal')).show();
     },
 
-    // --- ฟังก์ชันใหม่: สำหรับดาวน์โหลดใบแจ้งหนี้ใบเดียว ---
     downloadSingleInvoice: async (id) => {
         const bill = data.bills.find(x => x.id === id);
         if (!bill) return;
 
         const captureArea = document.getElementById('capture-area');
-        
-        // เรนเดอร์เฉพาะใบนี้ไปที่พื้นที่จับภาพ
         captureArea.innerHTML = app.generateInvoiceHTML(bill);
-        
-        // รอสักครู่ให้ Browser render font/css ให้เสร็จ
         await new Promise(r => setTimeout(r, 200));
 
         try {
-            const canvas = await html2canvas(captureArea.querySelector('.page-break'), {
-                scale: 2, 
-                backgroundColor: '#ffffff'
-            });
-            
+            const canvas = await html2canvas(captureArea.querySelector('.page-break'), { scale: 2, backgroundColor: '#ffffff' });
             const link = document.createElement('a');
             link.href = canvas.toDataURL('image/jpeg', 0.9);
             link.download = `Invoice_${bill.roomId}_${bill.month}.jpg`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
         } catch (err) {
             console.error("Error capturing invoice:", err);
             alert("เกิดข้อผิดพลาดในการดาวน์โหลด");
         }
-        
-        // ล้างพื้นที่จับภาพ
         captureArea.innerHTML = '';
     },
     
-    // Updated: Download Unpaid Bills as Images using html2canvas
     downloadUnpaidAsImages: async () => {
         const unpaidBills = data.bills.filter(b => b.status === 'unpaid');
         if (unpaidBills.length === 0) return alert('ไม่มีรายการค้างชำระ');
-        
-        // Sort by Room Number
         unpaidBills.sort((a, b) => a.roomId.localeCompare(b.roomId, undefined, { numeric: true, sensitivity: 'base' }));
 
         if(!confirm(`ต้องการดาวน์โหลดไฟล์รูปภาพจำนวน ${unpaidBills.length} รายการหรือไม่? (อาจใช้เวลาสักครู่)`)) return;
 
         const captureArea = document.getElementById('capture-area');
-        
-        // Loop through each bill, render, capture, and download
         for (let i = 0; i < unpaidBills.length; i++) {
             const bill = unpaidBills[i];
-            
-            // Render HTML to hidden area
             captureArea.innerHTML = app.generateInvoiceHTML(bill);
-            
-            // Wait slightly for rendering
             await new Promise(r => setTimeout(r, 100));
-
             try {
-                // Capture
-                const canvas = await html2canvas(captureArea.querySelector('.page-break'), {
-                    scale: 2, // Better resolution
-                    backgroundColor: '#ffffff'
-                });
-                
-                // Convert to blob/url
+                const canvas = await html2canvas(captureArea.querySelector('.page-break'), { scale: 2, backgroundColor: '#ffffff' });
                 const imgData = canvas.toDataURL('image/jpeg', 0.9);
-                
-                // Trigger Download
                 const link = document.createElement('a');
                 link.href = imgData;
                 link.download = `Invoice_${bill.roomId}_${bill.month}.jpg`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                
-            } catch (err) {
-                console.error("Error capturing invoice:", err);
-            }
+            } catch (err) { console.error("Error capturing invoice:", err); }
         }
-        
-        // Clean up
         captureArea.innerHTML = '';
         alert('ดาวน์โหลดเสร็จสิ้น ตรวจสอบไฟล์ในโฟลเดอร์ Downloads ของคุณ');
     },
@@ -1347,7 +1281,7 @@ const app = {
         app.renderSettings();
     },
     
-    // --- OTHERS ---
+    // --- OTHERS & Booking (Updated for Auto Bills) ---
     openBookingForm: (roomId, bId) => {
         bootstrap.Modal.getInstance(document.getElementById('roomProfileModal'))?.hide();
         const booking = bId ? data.bookings.find(b=>b.id===bId) : null;
@@ -1361,7 +1295,6 @@ const app = {
             document.getElementById('bf-price').value = booking.rentPrice;
             document.getElementById('bf-deposit').value = booking.deposit;
             document.getElementById('bf-discount').value = booking.discount||0;
-            // Load new fields
             document.getElementById('bf-other').value = booking.otherCost || 0;
             document.getElementById('bf-checkin').value = booking.checkInDate || new Date().toISOString().slice(0,10);
             document.getElementById('bf-remarks').value = booking.remarks || '';
@@ -1369,6 +1302,7 @@ const app = {
             document.getElementById('bf-price').value = data.config.monthlyRent;
             document.getElementById('bf-deposit').value = data.config.deposit;
             document.getElementById('bf-other').value = 0;
+            document.getElementById('bf-discount').value = 0;
             document.getElementById('bf-checkin').value = new Date().toISOString().slice(0,10);
             document.getElementById('bf-remarks').value = '';
         }
@@ -1428,12 +1362,26 @@ const app = {
             data.bookings.push(payload); 
         }
         
+        // Auto-update unpaid bills for this room when booking/costs change
+        let billsUpdated = false;
+        data.bills.forEach(bill => {
+            if (bill.roomId === rId && bill.status === 'unpaid') {
+                bill.rent = payload.rentPrice - payload.discount;
+                bill.otherCost = payload.otherCost;
+                bill.total = bill.rent + bill.otherCost + bill.elec.total + bill.water.total;
+                billsUpdated = true;
+            }
+        });
+
         const rIdx = data.rooms.findIndex(r=>r.id==rId); 
         data.rooms[rIdx].status = roomStatus; 
 
         db.save('bookings', data.bookings); 
         db.save('rooms', data.rooms);
-        bootstrap.Modal.getInstance(document.getElementById('bookingFormModal')).hide(); app.renderRooms();
+        if (billsUpdated) { db.save('bills', data.bills); }
+        
+        bootstrap.Modal.getInstance(document.getElementById('bookingFormModal')).hide(); 
+        app.renderRooms();
     },
     processMoveOut: (rid) => {
         if(!confirm('ย้ายออก?')) return;
@@ -1450,7 +1398,13 @@ const app = {
          data.config.waterRate = parseFloat(document.getElementById('conf-water').value);
          data.config.monthlyRent = parseFloat(document.getElementById('conf-monthly-rent').value);
          data.config.deposit = parseFloat(document.getElementById('conf-deposit').value);
-         db.save('config', data.config); alert('Saved');
+         data.config.dailyRate = parseFloat(document.getElementById('conf-daily-rate').value);
+
+         ['bankName','accName','accNo','lineId','bankName2','accName2','accNo2','lineId2'].forEach(k => {
+             data.config[k] = document.getElementById('conf-'+k).value;
+         });
+
+         db.save('config', data.config); alert('บันทึกการตั้งค่าเรียบร้อยแล้ว');
     },
     openCustomerModal: (id) => {
         document.getElementById('cust-id').value = id||'';
@@ -1526,7 +1480,6 @@ const app = {
         reader.onload = (e) => {
             try {
                 const json = JSON.parse(e.target.result);
-                // Basic validation
                 if(!json.rooms || !json.customers) throw new Error('Invalid format');
                 
                 db.save('buildings', json.buildings || []);
