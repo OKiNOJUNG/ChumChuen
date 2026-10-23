@@ -53,13 +53,13 @@
             --input-bg: rgba(248, 250, 252, 0.8);
             --input-border: rgba(203, 213, 225, 0.8);
 
-            /* 10% Accents */
-            --accent-primary: #0284c7;       /* Electric Blue */
-            --accent-primary-hover: #0369a1;
-            --accent-primary-light: rgba(2, 132, 199, 0.12);
+            /* 10% Accents - KosMate Theme */
+            --accent-primary: #2563eb;       /* KosMate Vibrant Blue */
+            --accent-primary-hover: #1d4ed8;
+            --accent-primary-light: rgba(37, 99, 235, 0.12);
             
             --accent-cyan: #06b6d4;          /* Analogous Cyan */
-            --accent-indigo: #6366f1;        /* Analogous Indigo */
+            --accent-indigo: #4f46e5;        /* Deep Indigo */
             
             --accent-success: #10b981;       /* Emerald Available / Paid */
             --accent-success-light: rgba(16, 185, 129, 0.12);
@@ -636,6 +636,122 @@
             margin-bottom: 12px;
         }
 
+        /* KOSMATE MOBILE APP STYLING & SHORTCUTS */
+        .kosmate-hero-card {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #3b82f6 100%) !important;
+            border-radius: 24px !important;
+            border: none !important;
+            box-shadow: 0 16px 36px -8px rgba(37, 99, 235, 0.42) !important;
+        }
+        .kosmate-shortcut-card {
+            background: var(--glass-card) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 18px !important;
+            cursor: pointer;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+        .kosmate-shortcut-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.15);
+            border-color: var(--accent-primary) !important;
+        }
+        .kosmate-shortcut-card:active {
+            transform: scale(0.95);
+        }
+        .shortcut-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: transform 0.2s ease;
+        }
+        .kosmate-shortcut-card:hover .shortcut-icon {
+            transform: scale(1.1);
+        }
+        .shortcut-label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-main);
+            white-space: nowrap;
+            margin-top: 4px;
+        }
+
+        /* MOBILE BOTTOM NAVIGATION BAR (KosMate Style) */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px) saturate(190%);
+            -webkit-backdrop-filter: blur(24px) saturate(190%);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            z-index: 1040;
+            box-shadow: 0 -8px 30px rgba(15, 23, 42, 0.08);
+            padding: 0 8px;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.72rem;
+            font-weight: 500;
+            cursor: pointer;
+            gap: 3px;
+            padding: 6px 8px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            flex: 1;
+            max-width: 68px;
+        }
+        .mobile-nav-item i {
+            font-size: 1.25rem;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+        .mobile-nav-item.active {
+            color: var(--accent-primary) !important;
+            font-weight: 600;
+        }
+        .mobile-nav-item.active i {
+            transform: scale(1.15);
+            color: var(--accent-primary) !important;
+        }
+        .mobile-nav-center {
+            position: relative;
+            top: -15px;
+            flex-shrink: 0;
+        }
+        .btn-mobile-plus {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #ffffff;
+            border: 4px solid var(--bg-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.45);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-mobile-plus:active {
+            transform: scale(0.92);
+        }
+
         /* RESPONSIVENESS */
         @media (max-width: 992px) {
             .sidebar {
@@ -649,7 +765,34 @@
                 left: 0;
             }
             .content-area {
-                padding: 1.25rem !important;
+                padding: 1rem !important;
+                padding-bottom: 90px !important; /* Safety clearance for mobile bottom bar */
+            }
+            .stat-card h2 {
+                font-size: 1.8rem !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .table-glass-container {
+                border-radius: var(--radius-lg);
+            }
+            .card {
+                border-radius: var(--radius-lg);
+            }
+            .card-room {
+                flex: 1 1 calc(50% - 10px);
+                max-width: calc(50% - 5px);
+                min-height: 98px;
+            }
+            .btn {
+                padding: 0.45rem 1rem;
+                font-size: 0.85rem;
+            }
+            .brand-pill {
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
             }
         }
 
@@ -805,10 +948,96 @@
                  VIEW: DASHBOARD
                  ============================================================== -->
             <div id="view-dashboard" class="view-section">
+                <!-- KosMate Inspired Hero Summary Banner -->
+                <div class="card kosmate-hero-card mb-4 p-4 text-white position-relative overflow-hidden">
+                    <div class="d-flex justify-content-between align-items-center position-relative" style="z-index: 2;">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-white bg-opacity-20 text-white rounded-pill px-3 py-1 small">
+                                    <i class="fas fa-hotel me-1"></i> ชุ่มชื่น โฮมมี่
+                                </span>
+                                <span class="small opacity-75">Chumchuen Homey</span>
+                            </div>
+                            <div class="display-6 fw-bold mb-2">
+                                <span id="dash-hero-total">0</span> <span class="fs-4 fw-normal opacity-90">ห้องพักทั้งหมด</span>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-white bg-opacity-25 rounded-pill px-3 py-2 text-white fw-medium" id="dash-hero-occupied">
+                                    <i class="fas fa-user-check me-1 text-success"></i> มีผู้เช่า 0 ห้อง
+                                </span>
+                                <span class="badge bg-white bg-opacity-25 rounded-pill px-3 py-2 text-white fw-medium" id="dash-hero-vacant">
+                                    <i class="fas fa-door-open me-1 text-warning"></i> ว่าง 0 ห้อง
+                                </span>
+                                <span class="badge bg-white bg-opacity-25 rounded-pill px-3 py-2 text-white fw-medium" id="dash-hero-unpaid">
+                                    <i class="fas fa-clock me-1 text-danger"></i> รอชำระ 0 บิล
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-none d-sm-flex align-items-center justify-content-center rounded-circle bg-white bg-opacity-20" style="width: 76px; height: 76px; font-size: 2.2rem;">
+                            <i class="fas fa-home text-white"></i>
+                        </div>
+                    </div>
+                    <!-- Decorative Soft Blur Circles -->
+                    <div style="position: absolute; right: -25px; bottom: -35px; width: 160px; height: 160px; background: rgba(255,255,255,0.08); border-radius: 50%; pointer-events: none;"></div>
+                    <div style="position: absolute; right: 90px; top: -30px; width: 100px; height: 100px; background: rgba(255,255,255,0.05); border-radius: 50%; pointer-events: none;"></div>
+                </div>
+
+                <!-- KosMate Quick Action Shortcuts Grid -->
+                <div class="row g-2 g-md-3 mb-4">
+                    <div class="col-4 col-md-2">
+                        <div class="kosmate-shortcut-card card p-2 text-center h-100 border-0" onclick="app.nav('buildings')">
+                            <div class="shortcut-icon mx-auto mb-1" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">
+                                <i class="fas fa-door-open"></i>
+                            </div>
+                            <small class="shortcut-label">ห้องพัก</small>
+                        </div>
+                    </div>
+                    <div class="col-4 col-md-2">
+                        <div class="kosmate-shortcut-card card p-2 text-center h-100 border-0" onclick="app.nav('customers')">
+                            <div class="shortcut-icon mx-auto mb-1" style="background: rgba(37, 99, 235, 0.12); color: #2563eb;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <small class="shortcut-label">ผู้เช่า</small>
+                        </div>
+                    </div>
+                    <div class="col-4 col-md-2">
+                        <div class="kosmate-shortcut-card card p-2 text-center h-100 border-0" onclick="app.nav('utilities')">
+                            <div class="shortcut-icon mx-auto mb-1" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b;">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <small class="shortcut-label">จดมิเตอร์</small>
+                        </div>
+                    </div>
+                    <div class="col-4 col-md-2">
+                        <div class="kosmate-shortcut-card card p-2 text-center h-100 border-0" onclick="app.nav('billing')">
+                            <div class="shortcut-icon mx-auto mb-1" style="background: rgba(139, 92, 246, 0.12); color: #8b5cf6;">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <small class="shortcut-label">จัดการบิล</small>
+                        </div>
+                    </div>
+                    <div class="col-4 col-md-2">
+                        <div class="kosmate-shortcut-card card p-2 text-center h-100 border-0" onclick="app.openNewBillWithMeterModal()">
+                            <div class="shortcut-icon mx-auto mb-1" style="background: rgba(6, 182, 212, 0.12); color: #06b6d4;">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <small class="shortcut-label">มิเตอร์ด่วน</small>
+                        </div>
+                    </div>
+                    <div class="col-4 col-md-2">
+                        <div class="kosmate-shortcut-card card p-2 text-center h-100 border-0" onclick="app.nav('settings')">
+                            <div class="shortcut-icon mx-auto mb-1" style="background: rgba(100, 116, 139, 0.12); color: #64748b;">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <small class="shortcut-label">ตั้งค่า</small>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 4 Top KPI Stat Cards -->
                 <div class="row g-3 mb-4">
                     <div class="col-6 col-xl-3">
-                        <div class="card stat-card" style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.9), rgba(14, 165, 233, 0.75)) !important; color: #ffffff;">
+                        <div class="card stat-card" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.9), rgba(29, 78, 216, 0.78)) !important; color: #ffffff;">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <small class="opacity-80 fw-medium">ห้องทั้งหมด</small>
@@ -824,7 +1053,7 @@
                         </div>
                     </div>
                     <div class="col-6 col-xl-3">
-                        <div class="card stat-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.75)) !important; color: #ffffff;">
+                        <div class="card stat-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.78)) !important; color: #ffffff;">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <small class="opacity-80 fw-medium">ห้องว่างพร้อมอยู่</small>
@@ -840,7 +1069,7 @@
                         </div>
                     </div>
                     <div class="col-6 col-xl-3">
-                        <div class="card stat-card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(79, 70, 229, 0.75)) !important; color: #ffffff;">
+                        <div class="card stat-card" style="background: linear-gradient(135deg, rgba(79, 70, 229, 0.9), rgba(67, 56, 202, 0.78)) !important; color: #ffffff;">
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <small class="opacity-80 fw-medium">มีผู้เช่าปัจจุบัน</small>
@@ -873,8 +1102,8 @@
                     </div>
                 </div>
 
-                <!-- Charts Section -->
-                <div class="row g-4">
+                <!-- Charts Section: Row 1 -->
+                <div class="row g-4 mb-4">
                     <div class="col-lg-5">
                         <div class="card p-4 h-100">
                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -894,6 +1123,38 @@
                             </div>
                             <div style="height: 260px;">
                                 <canvas id="profitChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section: Row 2 (Added 2 New Insights Charts) -->
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <div class="card p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h5 class="mb-0 fw-bold"><i class="fas fa-bolt me-2 text-warning"></i>สถิติการใช้น้ำ-ไฟรายเดือน</h5>
+                                    <small class="text-muted">เปรียบเทียบหน่วยการใช้ไฟฟ้าและน้ำประปาแต่ละรอบบิล</small>
+                                </div>
+                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25">หน่วย (Unit)</span>
+                            </div>
+                            <div style="height: 260px;">
+                                <canvas id="utilityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="card p-4 h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h5 class="mb-0 fw-bold"><i class="fas fa-coins me-2 text-success"></i>สัดส่วนโครงสร้างรายได้</h5>
+                                    <small class="text-muted">แยกตามหมวดหมู่ค่าเช่า น้ำ ไฟ และอื่นๆ</small>
+                                </div>
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">หมวดหมู่</span>
+                            </div>
+                            <div style="height: 260px; position: relative; display: flex; align-items: center; justify-content: center;">
+                                <canvas id="revenueBreakdownChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -987,26 +1248,55 @@
                  VIEW: UTILITIES (SMART DEFAULTS & LIVE INLINE CALC)
                  ============================================================== -->
             <div id="view-utilities" class="view-section d-none">
-                <div class="card p-4">
+                <div class="card p-3 p-md-4">
+                    <!-- Utilities Header Toolbar -->
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
-                        <div class="d-flex align-items-center gap-2">
-                            <h5 class="mb-0 fw-bold" style="color: var(--accent-primary);"><i class="fas fa-bolt me-2"></i>จดบันทึกมิเตอร์น้ำ-ไฟ</h5>
-                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3" id="clear-util-filter" style="display:none;" onclick="app.clearUtilFilter()">
-                                <i class="fas fa-times me-1"></i> ล้างการกรองห้อง
-                            </button>
+                        <div>
+                            <div class="d-flex align-items-center gap-2">
+                                <h5 class="mb-0 fw-bold" style="color: var(--accent-primary);">
+                                    <i class="fas fa-bolt me-2"></i>จดบันทึกมิเตอร์น้ำ-ไฟ
+                                </h5>
+                                <button class="btn btn-sm btn-outline-danger rounded-pill px-3" id="clear-util-filter" style="display:none;" onclick="app.clearUtilFilter()">
+                                    <i class="fas fa-times me-1"></i> ล้างการกรองห้อง
+                                </button>
+                            </div>
+                            <small class="text-muted">เรียงลำดับตามเลขห้อง กรอกง่าย รวดเร็ว คำนวณหน่วยและยอดเงินทันที</small>
                         </div>
                         
-                        <div class="d-flex gap-2 flex-wrap">
-                            <input type="month" id="meterMonth" class="form-control w-auto" onchange="app.renderUtilities()">
-                            <button class="btn btn-primary fw-bold" onclick="app.saveAllVisibleMeters()">
-                                <i class="fas fa-save"></i> บันทึกข้อมูลทั้งหมด
+                        <div class="d-flex gap-2 flex-wrap align-items-center">
+                            <!-- Building Filter -->
+                            <select id="utilBuildingFilter" class="form-select form-select-sm rounded-pill shadow-sm" style="width: 140px;" onchange="app.renderUtilities()">
+                                <option value="all">🏢 ทุกอาคาร</option>
+                            </select>
+
+                            <!-- Room Search -->
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <span class="input-group-text bg-transparent border-end-0"><i class="fas fa-search text-muted"></i></span>
+                                <input type="text" id="utilRoomSearch" class="form-control border-start-0 rounded-end-pill" placeholder="ค้นหาห้อง..." onkeyup="app.renderUtilities()">
+                            </div>
+
+                            <!-- Month Picker -->
+                            <input type="month" id="meterMonth" class="form-control form-control-sm rounded-pill w-auto shadow-sm" onchange="app.renderUtilities()">
+                            
+                            <!-- Save All Button -->
+                            <button class="btn btn-primary btn-sm rounded-pill fw-bold shadow-sm px-3" onclick="app.saveAllVisibleMeters()">
+                                <i class="fas fa-save me-1"></i> บันทึกข้อมูลทั้งหมด
                             </button>
                         </div>
                     </div>
 
-                    <div class="alert alert-info py-2 px-3 rounded-4 mb-3 small d-flex align-items-center gap-2">
-                        <i class="fas fa-info-circle fa-lg"></i>
-                        <span><strong>Smart Default:</strong> ระบบดึงเลขมิเตอร์เก่าจากรอบบิลที่แล้วให้อัตโนมัติ และคำนวณหน่วยพร้อมยอดเงินแบบ Real-time ทันทีที่กรอก</span>
+                    <!-- Smart Status & Keyboard Hint Banner -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 p-3 bg-light rounded-4 mb-3 border">
+                        <div class="d-flex align-items-center gap-2 small">
+                            <span class="badge bg-primary rounded-pill px-3 py-2">
+                                <i class="fas fa-check-double me-1"></i> ความคืบหน้า: <span id="util-progress-count">0 / 0 ห้อง</span>
+                            </span>
+                            <span class="text-muted d-none d-md-inline"><i class="fas fa-keyboard me-1 text-primary"></i>กด <strong>Enter</strong> เพื่อสลับไปช่องถัดไปและบันทึกอัตโนมัติ</span>
+                        </div>
+                        <div class="small text-muted">
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 me-1">● บันทึกแล้ว</span>
+                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25">● รอจด</span>
+                        </div>
                     </div>
 
                     <div class="table-glass-container">
@@ -1015,9 +1305,9 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 22%;">ห้องพัก (ผู้เช่า)</th>
-                                        <th style="width: 32%;">ค่าไฟ (เลขเดิม <i class="fas fa-arrow-right text-muted"></i> เลขใหม่)</th>
-                                        <th style="width: 32%;">ค่าน้ำ (เลขเดิม <i class="fas fa-arrow-right text-muted"></i> เลขใหม่)</th>
-                                        <th style="width: 14%;" class="text-center">สถานะ</th>
+                                        <th style="width: 32%;">⚡ ค่าไฟ (เดิม <i class="fas fa-arrow-right text-muted"></i> ใหม่ | คำนวณ)</th>
+                                        <th style="width: 32%;">💧 ค่าน้ำ (เดิม <i class="fas fa-arrow-right text-muted"></i> ใหม่ | คำนวณ)</th>
+                                        <th style="width: 14%;" class="text-center">สถานะ & บันทึก</th>
                                     </tr>
                                 </thead>
                                 <tbody id="meterTableBody"></tbody>
@@ -1042,7 +1332,10 @@
                             </div>
                         </div>
                         
-                        <div class="d-flex gap-2 flex-wrap">
+                        <div class="d-flex gap-2 flex-wrap align-items-center">
+                            <button class="btn btn-primary btn-sm rounded-pill fw-bold shadow-sm" onclick="app.openNewBillWithMeterModal()" title="ใส่เลขมิเตอร์ใหม่และบันทึกเป็นชำระเงินแล้วทันที">
+                                <i class="fas fa-bolt me-1"></i> กรอกเลขมิเตอร์ (ชำระทันที)
+                            </button>
                             <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="app.exportBillsCSV()" title="ส่งออกข้อมูลเป็น CSV">
                                 <i class="fas fa-file-csv me-1 text-success"></i> Export CSV
                             </button>
@@ -1064,6 +1357,7 @@
                                         <th>ห้อง</th>
                                         <th>ชื่อผู้เช่า</th>
                                         <th>รอบเดือน</th>
+                                        <th>มิเตอร์น้ำ-ไฟ</th>
                                         <th>ยอดรวม (บาท)</th>
                                         <th class="text-center">สถานะ</th>
                                         <th class="text-end">การจัดการ</th>
@@ -1203,13 +1497,10 @@
                             </button>
                             
                             <hr class="my-4" style="border-color: var(--glass-border-subtle);">
-                            <h6 class="text-danger small fw-bold">เครื่องมือผู้ดูแลระบบ (Admin Sandbox)</h6>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-warning w-100 rounded-pill" onclick="app.generateTestTenants()">
-                                    <i class="fas fa-database me-1"></i> +สร้างข้อมูลจำลอง
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger w-100 rounded-pill" onclick="app.clearAllData()">
-                                    <i class="fas fa-trash-alt me-1"></i> ล้างข้อมูลทั้งหมด
+                            <h6 class="text-danger small fw-bold"><i class="fas fa-exclamation-triangle me-1"></i>การจัดการฐานข้อมูล (Database Reset)</h6>
+                            <div>
+                                <button class="btn btn-sm btn-outline-danger w-100 rounded-pill py-2" onclick="app.clearAllData()">
+                                    <i class="fas fa-trash-alt me-1"></i> ล้างข้อมูลระบบทั้งหมด (Reset Data)
                                 </button>
                             </div>
                         </div>
@@ -1404,6 +1695,191 @@
         <div class="modal-content shadow-lg" style="border-radius: var(--radius-xl);"></div>
     </div>
 </div>
+
+<!-- Bill Meter Update Modal (Marks as Paid Immediately) -->
+<div class="modal fade" id="billMeterModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0" style="border-radius: var(--radius-xl);">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold" style="color: var(--accent-primary);">
+                    <i class="fas fa-bolt me-2 text-warning"></i>บันทึกเลขมิเตอร์รอบบิล
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="alert alert-success py-2 px-3 rounded-4 mb-3 small d-flex align-items-center gap-2">
+                    <i class="fas fa-check-circle fa-lg text-success"></i>
+                    <span><strong>เงื่อนไขรอบบิล:</strong> เมื่อใส่เลขมิเตอร์ใหม่ลงไปในหน้านี้ จะถือว่า<strong>ชำระเงินแล้วทันที</strong></span>
+                </div>
+
+                <input type="hidden" id="bm-bill-id">
+                
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <label class="form-label small text-muted mb-1">ห้องพัก</label>
+                        <select id="bm-room-id" class="form-select" onchange="app.onBillMeterRoomChange()">
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label small text-muted mb-1">รอบเดือน</label>
+                        <input type="month" id="bm-month" class="form-control" onchange="app.onBillMeterRoomChange()">
+                    </div>
+                    <div class="col-12">
+                        <div class="p-2 bg-light rounded-3 text-muted small" id="bm-tenant-info">
+                            ผู้เช่า: <span class="fw-bold text-dark" id="bm-tenant-name">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Electricity Meter -->
+                <div class="card p-3 mb-3 border-0" style="background: rgba(37, 99, 235, 0.05);">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="fw-bold mb-0 text-primary"><i class="fas fa-bolt text-warning me-1"></i> ค่าไฟฟ้า</h6>
+                        <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25" id="bm-elec-rate-badge">0 บ./หน่วย</span>
+                    </div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-6">
+                            <label class="form-label small text-muted mb-1">เลขมิเตอร์เดิม</label>
+                            <input type="number" id="bm-elec-prev" class="form-control" placeholder="0" oninput="app.calcBillMeterModalTotal()">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small text-muted mb-1">เลขมิเตอร์ใหม่ *</label>
+                            <input type="number" id="bm-elec-curr" class="form-control fw-bold border-primary" placeholder="กรอกเลขใหม่" oninput="app.calcBillMeterModalTotal()">
+                        </div>
+                    </div>
+                    <div class="mt-2 small fw-medium" id="bm-elec-calc">-</div>
+                </div>
+
+                <!-- Water Meter -->
+                <div class="card p-3 mb-3 border-0" style="background: rgba(6, 182, 212, 0.05);">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="fw-bold mb-0 text-info"><i class="fas fa-tint text-primary me-1"></i> ค่าน้ำประปา</h6>
+                        <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25" id="bm-water-rate-badge">0 บ./หน่วย</span>
+                    </div>
+                    <div class="row g-2 align-items-center">
+                        <div class="col-6">
+                            <label class="form-label small text-muted mb-1">เลขมิเตอร์เดิม</label>
+                            <input type="number" id="bm-water-prev" class="form-control" placeholder="0" oninput="app.calcBillMeterModalTotal()">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small text-muted mb-1">เลขมิเตอร์ใหม่ *</label>
+                            <input type="number" id="bm-water-curr" class="form-control fw-bold border-info" placeholder="กรอกเลขใหม่" oninput="app.calcBillMeterModalTotal()">
+                        </div>
+                    </div>
+                    <div class="mt-2 small fw-medium" id="bm-water-calc">-</div>
+                </div>
+
+                <!-- Total Bill Preview -->
+                <div class="p-3 bg-light rounded-4 border mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1 small text-muted">
+                        <span>ค่าเช่าห้อง:</span>
+                        <span id="bm-rent-display">0 บาท</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-1 small text-muted">
+                        <span>ค่าไฟ + ค่าน้ำ:</span>
+                        <span id="bm-util-display">0 บาท</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center border-top pt-2">
+                        <span class="fw-bold">ยอดสุทธิที่ต้องชำระ:</span>
+                        <span class="fw-bold fs-5 text-success" id="bm-total-display">0 บาท</span>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-light rounded-pill w-50" data-bs-dismiss="modal">ยกเลิก</button>
+                    <button type="button" class="btn btn-success rounded-pill w-50 fw-bold shadow-sm" onclick="app.saveBillWithMeter()">
+                        <i class="fas fa-check-circle me-1"></i> บันทึก & ชำระแล้ว
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Quick Action Sheet Modal -->
+<div class="modal fade" id="mobileQuickActionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0" style="border-radius: var(--radius-xl);">
+            <div class="modal-header border-0 pb-1">
+                <h5 class="modal-title fw-bold"><i class="fas fa-bolt text-primary me-2"></i>เมนูด่วน (Quick Action)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <button class="btn btn-light w-100 p-3 text-start d-flex align-items-center gap-3 rounded-4 border" onclick="bootstrap.Modal.getInstance(document.getElementById('mobileQuickActionModal')).hide(); app.nav('utilities');">
+                            <div class="shortcut-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">จดมิเตอร์</div>
+                                <small class="text-muted">บันทึกน้ำ-ไฟ</small>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-light w-100 p-3 text-start d-flex align-items-center gap-3 rounded-4 border" onclick="bootstrap.Modal.getInstance(document.getElementById('mobileQuickActionModal')).hide(); app.openNewBillWithMeterModal();">
+                            <div class="shortcut-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">
+                                <i class="fas fa-receipt"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">มิเตอร์ด่วน</div>
+                                <small class="text-muted">ชำระทันที</small>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-light w-100 p-3 text-start d-flex align-items-center gap-3 rounded-4 border" onclick="bootstrap.Modal.getInstance(document.getElementById('mobileQuickActionModal')).hide(); app.openBookingModal();">
+                            <div class="shortcut-icon" style="background: rgba(37, 99, 235, 0.15); color: #2563eb;">
+                                <i class="fas fa-calendar-plus"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">จอง/เช็คอิน</div>
+                                <small class="text-muted">เปิดห้องใหม่</small>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-light w-100 p-3 text-start d-flex align-items-center gap-3 rounded-4 border" onclick="bootstrap.Modal.getInstance(document.getElementById('mobileQuickActionModal')).hide(); app.openCustomerModal();">
+                            <div class="shortcut-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">เพิ่มผู้เช่า</div>
+                                <small class="text-muted">ข้อมูลลูกค้า</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Bottom Navigation Bar (KosMate Style) -->
+<nav class="mobile-bottom-nav d-lg-none" id="mobileBottomNav">
+    <a class="mobile-nav-item active" onclick="app.nav('dashboard')" id="mob-nav-dashboard">
+        <i class="fas fa-chart-pie"></i>
+        <span>แดชบอร์ด</span>
+    </a>
+    <a class="mobile-nav-item" onclick="app.nav('buildings')" id="mob-nav-buildings">
+        <i class="fas fa-door-closed"></i>
+        <span>ห้องพัก</span>
+    </a>
+    <div class="mobile-nav-center">
+        <button class="btn-mobile-plus" onclick="app.openMobileQuickActionModal()" title="เมนูด่วน">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+    <a class="mobile-nav-item" onclick="app.nav('utilities')" id="mob-nav-utilities">
+        <i class="fas fa-bolt"></i>
+        <span>จดมิเตอร์</span>
+    </a>
+    <a class="mobile-nav-item" onclick="app.nav('billing')" id="mob-nav-billing">
+        <i class="fas fa-file-invoice-dollar"></i>
+        <span>รอบบิล</span>
+    </a>
+</nav>
 
 <!-- ==========================================================================
      JAVASCRIPT APPLICATION CORE (MULTIMODAL, SWEETALERT2, SMART LOGIC)
@@ -1729,6 +2205,11 @@ const app = {
         const activeLink = [...document.querySelectorAll('.nav-link')].find(l => l.getAttribute('onclick')?.includes(view));
         if (activeLink) activeLink.classList.add('active');
 
+        // Sync Mobile Bottom Navigation
+        document.querySelectorAll('.mobile-nav-item').forEach(l => l.classList.remove('active'));
+        const activeMob = document.getElementById('mob-nav-' + view);
+        if (activeMob) activeMob.classList.add('active');
+
         const titles = {
             'dashboard': ['แดชบอร์ด', 'ภาพรวมสถานะห้องพักและการเงิน'],
             'buildings': ['อาคารและห้องพัก', 'จัดการสถานะและตรวจสอบข้อมูลห้อง'],
@@ -1749,6 +2230,21 @@ const app = {
         if (view === 'billing') app.renderBillingTable();
         if (view === 'settings') app.renderSettings();
         if (window.innerWidth < 992) document.getElementById('mainSidebar').classList.remove('show');
+    },
+
+    openMobileQuickActionModal: () => {
+        new bootstrap.Modal(document.getElementById('mobileQuickActionModal')).show();
+    },
+
+    openBookingModal: () => {
+        const availableRoom = data.rooms.find(r => r.status === 'available');
+        if (availableRoom) {
+            app.openBookingForm(availableRoom.id);
+        } else if (data.rooms.length > 0) {
+            app.openBookingForm(data.rooms[0].id);
+        } else {
+            app.alertDialog('ยังไม่มีห้องพัก', 'กรุณาเพิ่มตึกและห้องพักในระบบก่อนทำรายการจอง', 'warning');
+        }
     },
 
     paginate: (items, page) => items.slice((page - 1) * state.limit, page * state.limit),
@@ -2014,9 +2510,40 @@ const app = {
         } else {
             clrBtn.style.display = 'none';
         }
+
+        // Populate Building Filter Options if needed
+        const utilBFilterEl = document.getElementById('utilBuildingFilter');
+        if (utilBFilterEl && utilBFilterEl.options.length <= 1 && data.buildings) {
+            const curVal = utilBFilterEl.value;
+            utilBFilterEl.innerHTML = '<option value="">ทุกอาคาร</option>' + data.buildings.map(b => `<option value="${b.name}">อาคาร ${b.name}</option>`).join('');
+            utilBFilterEl.value = curVal;
+        }
         
         let occupied = data.rooms.filter(r => (r.status === 'occupied' || r.status === 'booked'));
         if (state.filterRoomUtil) occupied = occupied.filter(r => r.id === state.filterRoomUtil);
+
+        // Building Filter
+        const bFilter = utilBFilterEl?.value;
+        if (bFilter) occupied = occupied.filter(r => r.building === bFilter);
+
+        // Search Filter
+        const searchQ = document.getElementById('utilRoomSearch')?.value.toLowerCase().trim();
+        if (searchQ) {
+            occupied = occupied.filter(r => {
+                const bkg = data.bookings.find(b => b.roomId === r.id && b.status === 'active');
+                const c = bkg ? data.customers.find(x => x.id == bkg.customerId) : null;
+                const cName = c ? c.name.toLowerCase() : '';
+                return r.id.toLowerCase().includes(searchQ) || cName.includes(searchQ);
+            });
+        }
+        
+        // Sort rooms naturally (e.g. 101, 102, 103, 104) for effortless sequential entry
+        occupied.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true, sensitivity: 'base' }));
+
+        // Update Progress Count
+        const recordedCount = occupied.filter(r => data.bills.some(b => b.roomId === r.id && b.month === month)).length;
+        const progEl = document.getElementById('util-progress-count');
+        if (progEl) progEl.innerText = `${recordedCount} / ${occupied.length} ห้อง`;
         
         const displayData = app.paginate(occupied, state.page.utils);
         let finalHtml = '';
@@ -2042,29 +2569,42 @@ const app = {
             const dataAttr = `data-room="${r.id}" data-occupants="${booking.occupants||1}" data-rent="${booking.rentPrice}" data-discount="${booking.discount || 0}" data-other="${booking.otherCost || 0}" data-cust="${custName}"`;
 
             finalHtml += `
-                <tr class="meter-row" ${dataAttr}>
+                <tr class="meter-row" ${dataAttr} id="meter-row-${r.id}">
                     <td>
-                        <div class="fw-bold fs-5 text-primary">${r.id}</div>
-                        <small class="text-muted">${custName} (${booking.occupants || 1} คน)</small>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary rounded-pill px-3 py-2 fs-6 fw-bold">${r.id}</span>
+                            <div>
+                                <div class="fw-bold text-dark">${custName}</div>
+                                <small class="text-muted"><i class="fas fa-users me-1"></i>${booking.occupants || 1} คน | ค่าเช่า ${(booking.rentPrice - (booking.discount || 0)).toLocaleString()} บ.</small>
+                            </div>
+                        </div>
                     </td>
+                    <td>
                         <div class="input-group input-group-sm mb-1">
-                            <span class="input-group-text bg-transparent">เก่า</span>
-                            <input type="number" class="form-control ep" value="${ep}" placeholder="เลขเดิม" oninput="app.calculateLiveRow(this)">
-                            <span class="input-group-text bg-transparent">ใหม่</span>
-                            <input type="number" class="form-control ec" value="${ec}" placeholder="เลขใหม่" oninput="app.calculateLiveRow(this)">
+                            <span class="input-group-text bg-light text-muted" style="min-width: 44px;">เดิม</span>
+                            <input type="number" class="form-control ep" value="${ep}" placeholder="0" oninput="app.calculateLiveRow(this)" onkeydown="app.handleMeterKeyNav(event, this, 'ec', '${r.id}')">
+                            <span class="input-group-text bg-warning bg-opacity-10 text-dark fw-bold" style="min-width: 44px;">ใหม่</span>
+                            <input type="number" class="form-control ec fw-bold border-warning" value="${ec}" placeholder="เลขใหม่" oninput="app.calculateLiveRow(this)" onkeydown="app.handleMeterKeyNav(event, this, 'wp', '${r.id}')">
                         </div>
                         <div class="live-elec-calc small text-muted" style="font-size: 0.78rem;">-</div>
                     </td>
                     <td>
                         <div class="input-group input-group-sm mb-1">
-                            <span class="input-group-text bg-transparent">เก่า</span>
-                            <input type="number" class="form-control wp" value="${wp}" placeholder="เลขเดิม" oninput="app.calculateLiveRow(this)">
-                            <span class="input-group-text bg-transparent">ใหม่</span>
-                            <input type="number" class="form-control wc" value="${wc}" placeholder="เลขใหม่" oninput="app.calculateLiveRow(this)">
+                            <span class="input-group-text bg-light text-muted" style="min-width: 44px;">เดิม</span>
+                            <input type="number" class="form-control wp" value="${wp}" placeholder="0" oninput="app.calculateLiveRow(this)" onkeydown="app.handleMeterKeyNav(event, this, 'wc', '${r.id}')">
+                            <span class="input-group-text bg-info bg-opacity-10 text-dark fw-bold" style="min-width: 44px;">ใหม่</span>
+                            <input type="number" class="form-control wc fw-bold border-info" value="${wc}" placeholder="เลขใหม่" oninput="app.calculateLiveRow(this)" onkeydown="app.handleMeterKeyNav(event, this, 'nextRow', '${r.id}')">
                         </div>
                         <div class="live-water-calc small text-muted" style="font-size: 0.78rem;">-</div>
                     </td>
-                    <td class="text-center align-middle">${status}</td>
+                    <td class="text-center align-middle">
+                        <div class="d-flex flex-column align-items-center gap-1">
+                            ${status}
+                            <button class="btn btn-sm btn-outline-primary rounded-pill px-2 py-0" style="font-size:0.75rem;" onclick="app.saveSingleMeterRow('${r.id}')" title="บันทึกเฉพาะห้องนี้">
+                                <i class="fas fa-save me-1"></i> บันทึก
+                            </button>
+                        </div>
+                    </td>
                 </tr>`;
         });
 
@@ -2079,45 +2619,153 @@ const app = {
         app.renderPager(occupied.length, state.page.utils, 'util-pagination', 'renderUtilities');
     },
 
+    // Keyboard fast navigation for meter entry
+    handleMeterKeyNav: (e, inputEl, nextTarget, roomId) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const row = inputEl.closest('.meter-row');
+            if (!row) return;
+            if (nextTarget === 'ec') {
+                row.querySelector('.ec')?.focus();
+                row.querySelector('.ec')?.select();
+            } else if (nextTarget === 'wp') {
+                row.querySelector('.wp')?.focus();
+                row.querySelector('.wp')?.select();
+            } else if (nextTarget === 'wc') {
+                row.querySelector('.wc')?.focus();
+                row.querySelector('.wc')?.select();
+            } else if (nextTarget === 'nextRow') {
+                // Auto-save this row quietly if filled, then jump to next row's .ec
+                app.saveSingleMeterRow(roomId, false);
+                const nextRow = row.nextElementSibling;
+                if (nextRow && nextRow.classList.contains('meter-row')) {
+                    nextRow.querySelector('.ec')?.focus();
+                    nextRow.querySelector('.ec')?.select();
+                }
+            }
+        }
+    },
+
     // Real-time live calculator with inline warnings
     calculateLiveRow: (inputEl) => {
         const row = inputEl.closest('.meter-row');
         if (!row) return;
 
-        const ep = parseFloat(row.querySelector('.ep').value);
-        const ec = parseFloat(row.querySelector('.ec').value);
-        const wp = parseFloat(row.querySelector('.wp').value);
-        const wc = parseFloat(row.querySelector('.wc').value);
+        const epVal = row.querySelector('.ep')?.value.trim();
+        const ecVal = row.querySelector('.ec')?.value.trim();
+        const wpVal = row.querySelector('.wp')?.value.trim();
+        const wcVal = row.querySelector('.wc')?.value.trim();
         const occupants = parseInt(row.getAttribute('data-occupants')) || 1;
 
         const elecCalcDiv = row.querySelector('.live-elec-calc');
         const waterCalcDiv = row.querySelector('.live-water-calc');
 
         // Electricity
-        if (!isNaN(ep) && !isNaN(ec)) {
-            const diff = ec - ep;
-            if (diff < 0) {
-                elecCalcDiv.innerHTML = `<span class="text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> เลขใหม่น้อยกว่าเลขเดิม!</span>`;
-            } else {
-                const cost = diff * data.config.elecRate;
-                elecCalcDiv.innerHTML = `<span class="text-success fw-medium"><i class="fas fa-bolt text-warning"></i> ใช้ ${diff} หน่วย = ${cost.toLocaleString()} บาท</span>`;
+        if (ecVal !== '') {
+            const ep = epVal !== '' ? parseFloat(epVal) : 0;
+            const ec = parseFloat(ecVal);
+            if (!isNaN(ep) && !isNaN(ec)) {
+                const diff = ec - ep;
+                if (diff < 0) {
+                    elecCalcDiv.innerHTML = `<span class="text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> เลขใหม่น้อยกว่าเดิม!</span>`;
+                } else {
+                    const cost = diff * (data.config.elecRate || 8);
+                    elecCalcDiv.innerHTML = `<span class="text-success fw-medium"><i class="fas fa-bolt text-warning"></i> ${diff} หน่วย = ${cost.toLocaleString()} บ.</span>`;
+                }
             }
         } else {
             elecCalcDiv.innerHTML = '-';
         }
 
         // Water
-        if (!isNaN(wp) && !isNaN(wc)) {
-            const diff = wc - wp;
-            if (diff < 0) {
-                waterCalcDiv.innerHTML = `<span class="text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> เลขใหม่น้อยกว่าเลขเดิม!</span>`;
-            } else {
-                const minWater = occupants === 1 ? 120 : 150;
-                const cost = Math.max(diff * data.config.waterRate, minWater);
-                waterCalcDiv.innerHTML = `<span class="text-info fw-medium"><i class="fas fa-tint text-primary"></i> ใช้ ${diff} หน่วย = ${cost.toLocaleString()} บาท</span>`;
+        if (wcVal !== '') {
+            const wp = wpVal !== '' ? parseFloat(wpVal) : 0;
+            const wc = parseFloat(wcVal);
+            if (!isNaN(wp) && !isNaN(wc)) {
+                const diff = wc - wp;
+                if (diff < 0) {
+                    waterCalcDiv.innerHTML = `<span class="text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> เลขใหม่น้อยกว่าเดิม!</span>`;
+                } else {
+                    const minWater = occupants === 1 ? 120 : 150;
+                    const cost = Math.max(diff * (data.config.waterRate || 18), minWater);
+                    waterCalcDiv.innerHTML = `<span class="text-info fw-medium"><i class="fas fa-tint text-primary"></i> ${diff} หน่วย = ${cost.toLocaleString()} บ.</span>`;
+                }
             }
         } else {
             waterCalcDiv.innerHTML = '-';
+        }
+    },
+
+    // Save individual room meter row
+    saveSingleMeterRow: (roomId, notify = true) => {
+        const row = document.getElementById(`meter-row-${roomId}`);
+        if (!row) return;
+        const month = document.getElementById('meterMonth').value;
+        const occupants = parseInt(row.getAttribute('data-occupants')) || 1;
+        const rent = parseFloat(row.getAttribute('data-rent')) || 0;
+        const discount = parseFloat(row.getAttribute('data-discount')) || 0;
+        const other = parseFloat(row.getAttribute('data-other')) || 0;
+        const custName = row.getAttribute('data-cust') || '-';
+
+        const epVal = row.querySelector('.ep')?.value.trim();
+        const ecVal = row.querySelector('.ec')?.value.trim();
+        const wpVal = row.querySelector('.wp')?.value.trim();
+        const wcVal = row.querySelector('.wc')?.value.trim();
+
+        if ((!ecVal || ecVal === '') && (!wcVal || wcVal === '')) {
+            if (notify) app.alertDialog('กรุณากรอกข้อมูล', 'กรุณากรอกเลขมิเตอร์ไฟหรือน้ำใหม่ก่อนกดบันทึก', 'warning');
+            return;
+        }
+
+        const ep = epVal !== '' ? parseFloat(epVal) : 0;
+        const ec = ecVal !== '' ? parseFloat(ecVal) : ep;
+        const wp = wpVal !== '' ? parseFloat(wpVal) : 0;
+        const wc = wcVal !== '' ? parseFloat(wcVal) : wp;
+
+        if (ec < ep) {
+            if (notify) app.alertDialog('ข้อมูลไม่ถูกต้อง', `ห้อง ${roomId}: เลขมิเตอร์ไฟใหม่ (${ec}) น้อยกว่าเลขเดิม (${ep})`, 'warning');
+            return;
+        }
+        if (wc < wp) {
+            if (notify) app.alertDialog('ข้อมูลไม่ถูกต้อง', `ห้อง ${roomId}: เลขมิเตอร์น้ำใหม่ (${wc}) น้อยกว่าเลขเดิม (${wp})`, 'warning');
+            return;
+        }
+
+        const eUnits = Math.max(0, ec - ep);
+        const wUnits = Math.max(0, wc - wp);
+        const minWater = occupants === 1 ? 120 : 150;
+        const wTotal = Math.max(wUnits * (data.config.waterRate || 18), minWater);
+        const eTotal = eUnits * (data.config.elecRate || 8);
+        const total = (rent - discount + other) + eTotal + wTotal;
+
+        const existingIdx = data.bills.findIndex(b => b.roomId === roomId && b.month === month);
+        const billId = existingIdx > -1 ? data.bills[existingIdx].id : (Date.now() + Math.floor(Math.random() * 1000));
+        const billStatus = existingIdx > -1 ? data.bills[existingIdx].status : 'unpaid';
+
+        const newBill = {
+            id: billId,
+            roomId,
+            month,
+            rent: rent - discount,
+            otherCost: other,
+            elec: { prev: ep, curr: ec, units: eUnits, total: eTotal },
+            water: { prev: wp, curr: wc, units: wUnits, total: wTotal },
+            total,
+            status: billStatus,
+            tenantName: custName
+        };
+
+        if (existingIdx > -1) {
+            data.bills[existingIdx] = newBill;
+        } else {
+            data.bills.push(newBill);
+        }
+
+        db.save('bills', data.bills);
+        if (notify) {
+            app.toast('บันทึกสำเร็จ', `บันทึกมิเตอร์ห้อง ${roomId} เรียบร้อยแล้ว`, 'success');
+            app.renderUtilities();
+            app.renderDashboard();
         }
     },
 
@@ -2130,40 +2778,58 @@ const app = {
         rows.forEach(row => {
             const roomId = row.getAttribute('data-room');
             const occupants = parseInt(row.getAttribute('data-occupants')) || 1;
-            const rent = parseFloat(row.getAttribute('data-rent'));
-            const discount = parseFloat(row.getAttribute('data-discount'));
-            const other = parseFloat(row.getAttribute('data-other')); 
-            const custName = row.getAttribute('data-cust');
+            const rent = parseFloat(row.getAttribute('data-rent')) || 0;
+            const discount = parseFloat(row.getAttribute('data-discount')) || 0;
+            const other = parseFloat(row.getAttribute('data-other')) || 0;
+            const custName = row.getAttribute('data-cust') || '-';
 
-            const ep = parseFloat(row.querySelector('.ep').value);
-            const ec = parseFloat(row.querySelector('.ec').value);
-            const wp = parseFloat(row.querySelector('.wp').value);
-            const wc = parseFloat(row.querySelector('.wc').value);
+            const epVal = row.querySelector('.ep')?.value.trim();
+            const ecVal = row.querySelector('.ec')?.value.trim();
+            const wpVal = row.querySelector('.wp')?.value.trim();
+            const wcVal = row.querySelector('.wc')?.value.trim();
 
-            if (isNaN(ep) || isNaN(ec) || isNaN(wp) || isNaN(wc)) return;
+            // Skip rows with no new entries
+            if ((!ecVal || ecVal === '') && (!wcVal || wcVal === '')) return;
 
-            if (ec < ep || wc < wp) {
+            const ep = epVal !== '' ? parseFloat(epVal) : 0;
+            const ec = ecVal !== '' ? parseFloat(ecVal) : ep;
+            const wp = wpVal !== '' ? parseFloat(wpVal) : 0;
+            const wc = wcVal !== '' ? parseFloat(wcVal) : wp;
+
+            if (isNaN(ec) || isNaN(wc) || ec < ep || wc < wp) {
                 errors++;
                 return;
             }
 
-            const eUnits = ec - ep;
-            const wUnits = wc - wp;
-            let wTotal = Math.max(wUnits * data.config.waterRate, (occupants === 1 ? 120 : 150));
-            const total = (rent - discount + other) + (eUnits * data.config.elecRate) + wTotal;
+            const eUnits = Math.max(0, ec - ep);
+            const wUnits = Math.max(0, wc - wp);
+            const minWater = occupants === 1 ? 120 : 150;
+            const wTotal = Math.max(wUnits * (data.config.waterRate || 18), minWater);
+            const eTotal = eUnits * (data.config.elecRate || 8);
+            const total = (rent - discount + other) + eTotal + wTotal;
+
+            const existingIdx = data.bills.findIndex(b => b.roomId === roomId && b.month === month);
+            const billId = existingIdx > -1 ? data.bills[existingIdx].id : (Date.now() + Math.floor(Math.random() * 1000));
+            const billStatus = existingIdx > -1 ? data.bills[existingIdx].status : 'unpaid';
 
             const newBill = { 
-                id: Date.now() + Math.floor(Math.random() * 1000), 
-                roomId, month, 
+                id: billId, 
+                roomId, 
+                month, 
                 rent: rent - discount, 
                 otherCost: other, 
-                elec: { prev: ep, curr: ec, units: eUnits, total: eUnits * data.config.elecRate }, 
+                elec: { prev: ep, curr: ec, units: eUnits, total: eTotal }, 
                 water: { prev: wp, curr: wc, units: wUnits, total: wTotal }, 
-                total, status: 'unpaid', tenantName: custName 
+                total, 
+                status: billStatus, 
+                tenantName: custName 
             };
             
-            data.bills = data.bills.filter(b => !(b.roomId === roomId && b.month === month));
-            data.bills.push(newBill);
+            if (existingIdx > -1) {
+                data.bills[existingIdx] = newBill;
+            } else {
+                data.bills.push(newBill);
+            }
             count++;
         });
 
@@ -2171,11 +2837,16 @@ const app = {
             db.save('bills', data.bills);
             app.toast('บันทึกสำเร็จ', `บันทึกข้อมูลมิเตอร์เรียบร้อยแล้ว ${count} ห้อง`, 'success');
             if (errors > 0) {
-                app.toast('แจ้งเตือน', `ข้ามห้องที่มีเลขมิเตอร์ใหม่น้อยกว่าเดิม ${errors} ห้อง`, 'warning');
+                app.toast('แจ้งเตือน', `ข้ามห้องที่มีเลขมิเตอร์ไม่ถูกต้อง ${errors} ห้อง`, 'warning');
             }
             app.renderUtilities();
+            app.renderDashboard();
         } else {
-            app.alertDialog('กรุณาตรวจสอบข้อมูล', 'กรุณากรอกเลขมิเตอร์ให้ถูกต้องครบถ้วนก่อนกดบันทึก', 'warning');
+            if (errors > 0) {
+                app.alertDialog('กรุณาตรวจสอบข้อมูล', `พบข้อมูลมิเตอร์ไม่ถูกต้อง ${errors} ห้อง (เลขใหม่อาจน้อยกว่าเลขเดิม)`, 'warning');
+            } else {
+                app.alertDialog('กรุณากรอกข้อมูล', 'กรุณากรอกเลขมิเตอร์ใหม่อย่างน้อย 1 ห้องก่อนกดบันทึก', 'info');
+            }
         }
     },
 
@@ -2309,9 +2980,20 @@ const app = {
                      <td><span class="fw-bold text-primary fs-6">${b.roomId}</span></td>
                      <td><span class="fw-medium">${b.tName}</span></td>
                      <td>${thaiMonth(b.month)}</td>
+                     <td>
+                         <div class="small">
+                             <span class="text-warning fw-medium"><i class="fas fa-bolt"></i> ${b.elec ? `${b.elec.curr || 0} (${b.elec.units || 0}u)` : '-'}</span>
+                             <span class="mx-1 text-muted">|</span>
+                             <span class="text-info fw-medium"><i class="fas fa-tint"></i> ${b.water ? `${b.water.curr || 0} (${b.water.units || 0}u)` : '-'}</span>
+                         </div>
+                     </td>
                      <td><strong class="fs-6">${b.total.toLocaleString()}</strong></td>
                      <td class="text-center">${statusBadge}</td>
                      <td class="text-end">
+                         <!-- Quick Meter Input & Auto-Pay Button -->
+                         <button class="btn btn-sm btn-light rounded-circle text-warning me-1" onclick="app.openEditBillMeterModal(${b.id})" title="ใส่เลขมิเตอร์ใหม่ (ชำระทันที)">
+                             <i class="fas fa-bolt"></i>
+                         </button>
                          <!-- Quick Copy to LINE Button -->
                          <button class="btn btn-sm btn-light rounded-circle text-success me-1" onclick="app.copyBillLine(${b.id})" title="คัดลอกสรุปบิลส่ง LINE">
                              <i class="fab fa-line fa-lg"></i>
@@ -2330,8 +3012,210 @@ const app = {
              `;
         });
 
-        tbody.innerHTML = finalHtml || '<tr><td colspan="7" class="text-center text-muted py-4">ไม่พบบันทึกรอบบิล</td></tr>';
+        tbody.innerHTML = finalHtml || '<tr><td colspan="8" class="text-center text-muted py-4">ไม่พบบันทึกรอบบิล</td></tr>';
         app.renderPager(filtered.length, state.page.bills, 'bill-pagination', 'renderBillingTable');
+    },
+
+    // --- BILL METER ENTRY & AUTO-PAY LOGIC ---
+    openNewBillWithMeterModal: () => {
+        document.getElementById('bm-bill-id').value = '';
+        const roomSelect = document.getElementById('bm-room-id');
+        const occupied = data.rooms.filter(r => r.status === 'occupied' || r.status === 'booked');
+        occupied.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true, sensitivity: 'base' }));
+        
+        roomSelect.innerHTML = occupied.map(r => `<option value="${r.id}">ห้อง ${r.id}</option>`).join('') || '<option value="">ไม่มีห้องที่มีผู้เช่า</option>';
+        
+        const curMonth = document.getElementById('bill-month-filter')?.value || new Date().toISOString().slice(0, 7);
+        document.getElementById('bm-month').value = curMonth;
+
+        app.onBillMeterRoomChange();
+        new bootstrap.Modal(document.getElementById('billMeterModal')).show();
+    },
+
+    openEditBillMeterModal: (billId) => {
+        const b = data.bills.find(x => x.id === billId);
+        if (!b) return;
+
+        document.getElementById('bm-bill-id').value = billId;
+        const roomSelect = document.getElementById('bm-room-id');
+        roomSelect.innerHTML = `<option value="${b.roomId}">ห้อง ${b.roomId}</option>`;
+        roomSelect.value = b.roomId;
+        document.getElementById('bm-month').value = b.month;
+
+        document.getElementById('bm-elec-rate-badge').innerText = `${data.config.elecRate || 8} บ./หน่วย`;
+        document.getElementById('bm-water-rate-badge').innerText = `${data.config.waterRate || 18} บ./หน่วย`;
+
+        document.getElementById('bm-elec-prev').value = b.elec ? b.elec.prev : 0;
+        document.getElementById('bm-elec-curr').value = b.elec ? b.elec.curr : '';
+        document.getElementById('bm-water-prev').value = b.water ? b.water.prev : 0;
+        document.getElementById('bm-water-curr').value = b.water ? b.water.curr : '';
+
+        const booking = data.bookings.find(k => k.roomId === b.roomId && k.status === 'active');
+        let tName = b.tenantName || '-';
+        if (tName === '-' && booking) {
+            const c = data.customers.find(x => x.id == booking.customerId);
+            if (c) tName = c.name;
+        }
+        document.getElementById('bm-tenant-name').innerText = `${tName} (ห้อง ${b.roomId})`;
+
+        app.calcBillMeterModalTotal();
+        new bootstrap.Modal(document.getElementById('billMeterModal')).show();
+    },
+
+    onBillMeterRoomChange: () => {
+        const roomId = document.getElementById('bm-room-id').value;
+        const month = document.getElementById('bm-month').value;
+        if (!roomId || !month) return;
+
+        const [cy, cm] = month.split('-').map(Number);
+        let py = cy, pm = cm - 1;
+        if (pm === 0) { pm = 12; py--; }
+        const prevMonthStr = `${py}-${String(pm).padStart(2, '0')}`;
+
+        const booking = data.bookings.find(b => b.roomId === roomId && b.status === 'active');
+        const cust = booking ? data.customers.find(c => c.id == booking.customerId) : null;
+        const custName = cust ? cust.name : (booking ? 'ผู้เช่า' : '-');
+        document.getElementById('bm-tenant-name').innerText = `${custName} (${booking?.occupants || 1} คน)`;
+
+        const existingBill = data.bills.find(b => b.roomId === roomId && b.month === month);
+        const prevBill = data.bills.find(b => b.roomId === roomId && b.month === prevMonthStr);
+
+        document.getElementById('bm-elec-rate-badge').innerText = `${data.config.elecRate || 8} บ./หน่วย`;
+        document.getElementById('bm-water-rate-badge').innerText = `${data.config.waterRate || 18} บ./หน่วย`;
+
+        let ep = existingBill ? existingBill.elec.prev : (prevBill ? prevBill.elec.curr : 0);
+        let ec = existingBill ? existingBill.elec.curr : '';
+        let wp = existingBill ? existingBill.water.prev : (prevBill ? prevBill.water.curr : 0);
+        let wc = existingBill ? existingBill.water.curr : '';
+
+        document.getElementById('bm-elec-prev').value = ep;
+        document.getElementById('bm-elec-curr').value = ec;
+        document.getElementById('bm-water-prev').value = wp;
+        document.getElementById('bm-water-curr').value = wc;
+
+        app.calcBillMeterModalTotal();
+    },
+
+    calcBillMeterModalTotal: () => {
+        const roomId = document.getElementById('bm-room-id').value;
+        const booking = data.bookings.find(b => b.roomId === roomId && b.status === 'active');
+        const rent = booking ? (booking.rentPrice - (booking.discount || 0)) : (data.config.monthlyRent || 3500);
+        const other = booking ? (booking.otherCost || 0) : 0;
+        const occupants = booking ? (booking.occupants || 1) : 1;
+
+        const ep = parseFloat(document.getElementById('bm-elec-prev').value) || 0;
+        const ecVal = document.getElementById('bm-elec-curr').value.trim();
+        const ec = ecVal !== '' ? parseFloat(ecVal) : ep;
+
+        const wp = parseFloat(document.getElementById('bm-water-prev').value) || 0;
+        const wcVal = document.getElementById('bm-water-curr').value.trim();
+        const wc = wcVal !== '' ? parseFloat(wcVal) : wp;
+
+        let eCost = 0;
+        let wCost = 0;
+
+        // Elec
+        if (ecVal !== '') {
+            const eUnits = Math.max(0, ec - ep);
+            eCost = eUnits * (data.config.elecRate || 8);
+            document.getElementById('bm-elec-calc').innerHTML = ec < ep 
+                ? `<span class="text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> เลขใหม่น้อยกว่าเดิม!</span>`
+                : `<span class="text-success"><i class="fas fa-bolt text-warning"></i> ใช้ ${eUnits} หน่วย = ${eCost.toLocaleString()} บ.</span>`;
+        } else {
+            document.getElementById('bm-elec-calc').innerText = '-';
+        }
+
+        // Water
+        if (wcVal !== '') {
+            const wUnits = Math.max(0, wc - wp);
+            const minWater = occupants === 1 ? 120 : 150;
+            wCost = Math.max(wUnits * (data.config.waterRate || 18), minWater);
+            document.getElementById('bm-water-calc').innerHTML = wc < wp 
+                ? `<span class="text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> เลขใหม่น้อยกว่าเดิม!</span>`
+                : `<span class="text-info"><i class="fas fa-tint text-primary"></i> ใช้ ${wUnits} หน่วย = ${wCost.toLocaleString()} บ. (ขั้นต่ำ ${minWater} บ.)</span>`;
+        } else {
+            document.getElementById('bm-water-calc').innerText = '-';
+        }
+
+        const utilTotal = eCost + wCost;
+        const total = rent + other + utilTotal;
+
+        document.getElementById('bm-rent-display').innerText = `${rent.toLocaleString()} บาท`;
+        document.getElementById('bm-util-display').innerText = `${utilTotal.toLocaleString()} บาท`;
+        document.getElementById('bm-total-display').innerText = `${total.toLocaleString()} บาท`;
+    },
+
+    saveBillWithMeter: () => {
+        const billIdStr = document.getElementById('bm-bill-id').value;
+        const roomId = document.getElementById('bm-room-id').value;
+        const month = document.getElementById('bm-month').value;
+
+        if (!roomId || !month) {
+            return app.alertDialog('กรุณากรอกข้อมูล', 'กรุณาเลือกห้องและระบุรอบเดือนให้ถูกต้อง', 'warning');
+        }
+
+        const booking = data.bookings.find(b => b.roomId === roomId && b.status === 'active');
+        const cust = booking ? data.customers.find(c => c.id == booking.customerId) : null;
+        const tenantName = cust ? cust.name : (booking ? 'ผู้เช่า' : '-');
+        const occupants = booking ? (booking.occupants || 1) : 1;
+        const rent = booking ? (booking.rentPrice - (booking.discount || 0)) : (data.config.monthlyRent || 3500);
+        const other = booking ? (booking.otherCost || 0) : 0;
+
+        const ep = parseFloat(document.getElementById('bm-elec-prev').value) || 0;
+        const ecVal = document.getElementById('bm-elec-curr').value.trim();
+        const wp = parseFloat(document.getElementById('bm-water-prev').value) || 0;
+        const wcVal = document.getElementById('bm-water-curr').value.trim();
+
+        if (ecVal === '' && wcVal === '') {
+            return app.alertDialog('กรุณากรอกเลขมิเตอร์', 'กรุณากรอกเลขมิเตอร์ไฟหรือน้ำใหม่ก่อนบันทึก', 'warning');
+        }
+
+        const ec = ecVal !== '' ? parseFloat(ecVal) : ep;
+        const wc = wcVal !== '' ? parseFloat(wcVal) : wp;
+
+        if (ec < ep) {
+            return app.alertDialog('ข้อมูลไม่ถูกต้อง', `เลขมิเตอร์ไฟใหม่ (${ec}) น้อยกว่าเลขเดิม (${ep})`, 'warning');
+        }
+        if (wc < wp) {
+            return app.alertDialog('ข้อมูลไม่ถูกต้อง', `เลขมิเตอร์น้ำใหม่ (${wc}) น้อยกว่าเลขเดิม (${wp})`, 'warning');
+        }
+
+        const eUnits = Math.max(0, ec - ep);
+        const wUnits = Math.max(0, wc - wp);
+        const minWater = occupants === 1 ? 120 : 150;
+        const wTotal = Math.max(wUnits * (data.config.waterRate || 18), minWater);
+        const eTotal = eUnits * (data.config.elecRate || 8);
+        const total = rent + other + eTotal + wTotal;
+
+        const existingIdx = data.bills.findIndex(b => (billIdStr ? b.id == billIdStr : (b.roomId === roomId && b.month === month)));
+        const targetId = existingIdx > -1 ? data.bills[existingIdx].id : (Date.now() + Math.floor(Math.random() * 1000));
+
+        // In Billing tab, entering meter readings automatically marks bill as 'paid' immediately
+        const billObj = {
+            id: targetId,
+            roomId,
+            month,
+            rent,
+            otherCost: other,
+            elec: { prev: ep, curr: ec, units: eUnits, total: eTotal },
+            water: { prev: wp, curr: wc, units: wUnits, total: wTotal },
+            total,
+            status: 'paid', // ถือว่าจ่ายแล้วทันที
+            tenantName
+        };
+
+        if (existingIdx > -1) {
+            data.bills[existingIdx] = billObj;
+        } else {
+            data.bills.push(billObj);
+        }
+
+        db.save('bills', data.bills);
+        bootstrap.Modal.getInstance(document.getElementById('billMeterModal'))?.hide();
+        app.toast('ชำระเงินเรียบร้อย', `บันทึกมิเตอร์ห้อง ${roomId} และปรับสถานะเป็น "ชำระแล้ว" ทันที`, 'success');
+        app.renderBillingTable();
+        app.renderUtilities();
+        app.renderDashboard();
     },
 
     // Quick copy formatted bill message for LINE
@@ -2914,6 +3798,17 @@ const app = {
         const unpaidAmount = unpaidBills.reduce((acc, b) => acc + b.total, 0);
         const totalRevenue = paidBills.reduce((acc, b) => acc + b.total, 0);
 
+        // Hero Card stats
+        const dashHeroTotal = document.getElementById('dash-hero-total');
+        if (dashHeroTotal) dashHeroTotal.innerText = total;
+        const dashHeroOcc = document.getElementById('dash-hero-occupied');
+        if (dashHeroOcc) dashHeroOcc.innerHTML = `<i class="fas fa-user-check me-1 text-success"></i> มีผู้เช่า ${occupied} ห้อง`;
+        const dashHeroVac = document.getElementById('dash-hero-vacant');
+        if (dashHeroVac) dashHeroVac.innerHTML = `<i class="fas fa-door-open me-1 text-warning"></i> ว่าง ${vacant} ห้อง`;
+        const dashHeroUnpaid = document.getElementById('dash-hero-unpaid');
+        if (dashHeroUnpaid) dashHeroUnpaid.innerHTML = `<i class="fas fa-clock me-1 text-danger"></i> รอชำระ ${unpaidBills.length} บิล`;
+
+        // Standard KPI stats
         document.getElementById('dash-total').innerText = total;
         document.getElementById('dash-vacant').innerText = vacant;
         document.getElementById('dash-occupied').innerText = occupied;
@@ -2927,7 +3822,7 @@ const app = {
         // Chart Text Colors according to Light/Dark Mode
         const textColor = state.isDarkMode ? '#94a3b8' : '#64748b';
 
-        // Profit / Revenue Bar Chart
+        // 1. Profit / Revenue Bar Chart
         const ctx = document.getElementById('profitChart')?.getContext('2d');
         if (ctx) {
             if (window.dashChart) window.dashChart.destroy();
@@ -2938,7 +3833,7 @@ const app = {
                     datasets: [{
                         label: 'จำนวนเงิน (บาท)', 
                         data: [totalRevenue, unpaidAmount], 
-                        backgroundColor: ['#0284c7', '#f59e0b'], 
+                        backgroundColor: ['#2563eb', '#f59e0b'], 
                         borderRadius: 12,
                         barThickness: 38
                     }] 
@@ -2961,7 +3856,7 @@ const app = {
             });
         }
 
-        // Occupancy Doughnut Chart
+        // 2. Occupancy Doughnut Chart
         const ctx2 = document.getElementById('occupancyChart')?.getContext('2d');
         if (ctx2) {
             if (window.occChart) window.occChart.destroy();
@@ -2971,7 +3866,7 @@ const app = {
                     labels: ['ห้องว่าง', 'มีผู้เช่า', 'จองแล้ว', 'ปรับปรุง'], 
                     datasets: [{
                         data: [vacant, occupied, booked, maintenance], 
-                        backgroundColor: ['#10b981', '#0284c7', '#f59e0b', '#8b5cf6'], 
+                        backgroundColor: ['#10b981', '#2563eb', '#f59e0b', '#8b5cf6'], 
                         borderWidth: state.isDarkMode ? 2 : 3,
                         borderColor: state.isDarkMode ? '#111827' : '#ffffff'
                     }] 
@@ -2989,48 +3884,112 @@ const app = {
                 } 
             });
         }
-    },
 
-    // --- MOCK DATA GENERATOR ---
-    generateTestTenants: () => {
-        if (data.rooms.length === 0) return app.alertDialog('กรุณาเพิ่มตึกและห้อง', 'ต้องมีห้องพักในระบบก่อนสร้างข้อมูลจำลอง', 'warning');
-        const names = ['สมชาย มงคลสุข', 'กัลยา ประเสริฐยิ่ง', 'ณัฐวุฒิ ศรีสวัสดิ์', 'พิมพิลา แสนดี', 'กิตติศักดิ์ เจริญพร'];
-        const phones = ['081-234-5678', '089-876-5432', '085-112-2334', '086-998-8776', '082-554-4332'];
-        let count = 0;
+        // 3. NEW CHART: Utility Consumption History (Electricity & Water Units)
+        const ctxUtil = document.getElementById('utilityChart')?.getContext('2d');
+        if (ctxUtil) {
+            if (window.utilChart) window.utilChart.destroy();
+            
+            let monthsList = Array.from(new Set(data.bills.map(b => b.month))).sort().slice(-6);
+            if (monthsList.length === 0) monthsList = [new Date().toISOString().slice(0, 7)];
+            
+            const utilLabels = monthsList.map(m => thaiMonth(m));
+            const elecUnits = monthsList.map(m => {
+                return data.bills.filter(b => b.month === m).reduce((acc, b) => acc + (b.elec ? (b.elec.units || 0) : 0), 0);
+            });
+            const waterUnits = monthsList.map(m => {
+                return data.bills.filter(b => b.month === m).reduce((acc, b) => acc + (b.water ? (b.water.units || 0) : 0), 0);
+            });
 
-        for (let i = 0; i < 5; i++) {
-            const emptyRoom = data.rooms.find(r => r.status === 'available');
-            if (!emptyRoom) break;
-            const custId = Date.now() + i;
-            data.customers.push({ 
-                id: custId, 
-                name: names[i % names.length], 
-                phone: phones[i % phones.length], 
-                idcard: `110020030040${i}`, 
-                document: '' 
+            window.utilChart = new Chart(ctxUtil, {
+                type: 'bar',
+                data: {
+                    labels: utilLabels,
+                    datasets: [
+                        {
+                            label: 'ไฟฟ้า (หน่วย)',
+                            data: elecUnits,
+                            backgroundColor: '#f59e0b',
+                            borderRadius: 8,
+                            barPercentage: 0.6
+                        },
+                        {
+                            label: 'น้ำประปา (หน่วย)',
+                            data: waterUnits,
+                            backgroundColor: '#06b6d4',
+                            borderRadius: 8,
+                            barPercentage: 0.6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { color: textColor, font: { family: "'Prompt', sans-serif" } }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: state.isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' },
+                            ticks: { color: textColor }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
             });
-            data.bookings.push({ 
-                id: Date.now() + i + 100, 
-                roomId: emptyRoom.id, 
-                customerId: custId, 
-                type: 'monthly', 
-                occupants: 1, 
-                rentPrice: data.config.monthlyRent, 
-                deposit: data.config.deposit, 
-                discount: 0, 
-                checkInDate: new Date().toISOString().slice(0, 10), 
-                status: 'active' 
-            });
-            emptyRoom.status = 'occupied';
-            count++;
         }
 
-        db.save('customers', data.customers); 
-        db.save('bookings', data.bookings); 
-        db.save('rooms', data.rooms);
-        app.toast('สร้าง Mock Data สำเร็จ', `สร้างข้อมูลจำลองผู้เช่าและเข้าพัก ${count} ห้อง`, 'success');
-        app.renderRooms();
-        app.renderDashboard();
+        // 4. NEW CHART: Revenue Structure Breakdown (Rent, Electricity, Water, Others)
+        const ctxRev = document.getElementById('revenueBreakdownChart')?.getContext('2d');
+        if (ctxRev) {
+            if (window.revChart) window.revChart.destroy();
+            
+            const targetBills = paidBills.length > 0 ? paidBills : data.bills;
+            const rentSum = targetBills.reduce((acc, b) => acc + (b.rent || 0), 0);
+            const elecSum = targetBills.reduce((acc, b) => acc + (b.elec ? (b.elec.total || 0) : 0), 0);
+            const waterSum = targetBills.reduce((acc, b) => acc + (b.water ? (b.water.total || 0) : 0), 0);
+            const otherSum = targetBills.reduce((acc, b) => acc + (b.otherCost || 0), 0);
+
+            window.revChart = new Chart(ctxRev, {
+                type: 'doughnut',
+                data: {
+                    labels: ['ค่าเช่าห้อง', 'ค่าไฟฟ้า', 'ค่าน้ำประปา', 'อื่นๆ'],
+                    datasets: [{
+                        data: [rentSum || 1, elecSum, waterSum, otherSum],
+                        backgroundColor: ['#2563eb', '#f59e0b', '#06b6d4', '#8b5cf6'],
+                        borderWidth: state.isDarkMode ? 2 : 3,
+                        borderColor: state.isDarkMode ? '#111827' : '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor, padding: 12, font: { family: "'Prompt', sans-serif" } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (item) => ` ${item.label}: ${item.raw.toLocaleString()} บาท`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    },
+
+    // --- MOCK DATA GENERATOR (DISABLED) ---
+    generateTestTenants: () => {
+        app.alertDialog('ฟังก์ชันถูกปิดใช้งาน', 'ฟังก์ชันสร้างข้อมูลจำลองถูกปิดใช้งานเพื่อป้องกันข้อมูลจำลองปะปนกับข้อมูลจริง', 'info');
     },
 
     clearAllData: async () => {
