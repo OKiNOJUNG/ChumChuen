@@ -1731,11 +1731,30 @@
                     </div>
                 </div>
 
+                <!-- Room Rent (เฉพาะรอบบิลนี้) -->
+                <div class="card p-3 mb-3 border-0" style="background: rgba(16, 185, 129, 0.05);">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="fw-bold mb-0 text-success"><i class="fas fa-home me-1"></i> ค่าเช่าห้อง (เฉพาะรอบนี้)</h6>
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25" style="font-size:0.75rem;">ปรับเฉพาะเดือนนี้</span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-money-bill-wave text-success"></i></span>
+                        <input type="number" id="bm-rent" class="form-control fw-bold border-start-0" placeholder="0" oninput="app.calcBillMeterModalTotal()">
+                        <span class="input-group-text bg-white text-muted small">บาท</span>
+                    </div>
+                </div>
+
                 <!-- Electricity Meter -->
                 <div class="card p-3 mb-3 border-0" style="background: rgba(37, 99, 235, 0.05);">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
                         <h6 class="fw-bold mb-0 text-primary"><i class="fas fa-bolt text-warning me-1"></i> ค่าไฟฟ้า</h6>
-                        <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25" id="bm-elec-rate-badge">0 บ./หน่วย</span>
+                        <div class="d-flex align-items-center gap-1">
+                            <span class="small text-muted" style="font-size: 0.78rem;">ราคา/หน่วย:</span>
+                            <div class="input-group input-group-sm" style="width: 105px;">
+                                <input type="number" step="any" id="bm-elec-rate" class="form-control form-control-sm text-end fw-bold text-primary" placeholder="8" oninput="app.calcBillMeterModalTotal()">
+                                <span class="input-group-text px-1 text-muted small">บ.</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="row g-2 align-items-center">
                         <div class="col-6">
@@ -1752,9 +1771,15 @@
 
                 <!-- Water Meter -->
                 <div class="card p-3 mb-3 border-0" style="background: rgba(6, 182, 212, 0.05);">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
                         <h6 class="fw-bold mb-0 text-info"><i class="fas fa-tint text-primary me-1"></i> ค่าน้ำประปา</h6>
-                        <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25" id="bm-water-rate-badge">0 บ./หน่วย</span>
+                        <div class="d-flex align-items-center gap-1">
+                            <span class="small text-muted" style="font-size: 0.78rem;">ราคา/หน่วย:</span>
+                            <div class="input-group input-group-sm" style="width: 105px;">
+                                <input type="number" step="any" id="bm-water-rate" class="form-control form-control-sm text-end fw-bold text-info" placeholder="18" oninput="app.calcBillMeterModalTotal()">
+                                <span class="input-group-text px-1 text-muted small">บ.</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="row g-2 align-items-center">
                         <div class="col-6">
@@ -2731,25 +2756,29 @@ const app = {
             return;
         }
 
+        const existingIdx = data.bills.findIndex(b => b.roomId === roomId && b.month === month);
+        const existingBill = existingIdx > -1 ? data.bills[existingIdx] : null;
+        const billId = existingBill ? existingBill.id : (Date.now() + Math.floor(Math.random() * 1000));
+        const billStatus = existingBill ? existingBill.status : 'unpaid';
+        const elecRate = (existingBill && existingBill.elec && existingBill.elec.rate !== undefined) ? existingBill.elec.rate : (data.config.elecRate || 8);
+        const waterRate = (existingBill && existingBill.water && existingBill.water.rate !== undefined) ? existingBill.water.rate : (data.config.waterRate || 18);
+        const billRent = (existingBill && existingBill.rent !== undefined) ? existingBill.rent : (rent - discount);
+
         const eUnits = Math.max(0, ec - ep);
         const wUnits = Math.max(0, wc - wp);
         const minWater = occupants === 1 ? 120 : 150;
-        const wTotal = Math.max(wUnits * (data.config.waterRate || 18), minWater);
-        const eTotal = eUnits * (data.config.elecRate || 8);
-        const total = (rent - discount + other) + eTotal + wTotal;
-
-        const existingIdx = data.bills.findIndex(b => b.roomId === roomId && b.month === month);
-        const billId = existingIdx > -1 ? data.bills[existingIdx].id : (Date.now() + Math.floor(Math.random() * 1000));
-        const billStatus = existingIdx > -1 ? data.bills[existingIdx].status : 'unpaid';
+        const wTotal = Math.max(wUnits * waterRate, minWater);
+        const eTotal = eUnits * elecRate;
+        const total = (billRent + other) + eTotal + wTotal;
 
         const newBill = {
             id: billId,
             roomId,
             month,
-            rent: rent - discount,
+            rent: billRent,
             otherCost: other,
-            elec: { prev: ep, curr: ec, units: eUnits, total: eTotal },
-            water: { prev: wp, curr: wc, units: wUnits, total: wTotal },
+            elec: { prev: ep, curr: ec, units: eUnits, rate: elecRate, total: eTotal },
+            water: { prev: wp, curr: wc, units: wUnits, rate: waterRate, total: wTotal },
             total,
             status: billStatus,
             tenantName: custName
@@ -2801,25 +2830,29 @@ const app = {
                 return;
             }
 
+            const existingIdx = data.bills.findIndex(b => b.roomId === roomId && b.month === month);
+            const existingBill = existingIdx > -1 ? data.bills[existingIdx] : null;
+            const billId = existingBill ? existingBill.id : (Date.now() + Math.floor(Math.random() * 1000));
+            const billStatus = existingBill ? existingBill.status : 'unpaid';
+            const elecRate = (existingBill && existingBill.elec && existingBill.elec.rate !== undefined) ? existingBill.elec.rate : (data.config.elecRate || 8);
+            const waterRate = (existingBill && existingBill.water && existingBill.water.rate !== undefined) ? existingBill.water.rate : (data.config.waterRate || 18);
+            const billRent = (existingBill && existingBill.rent !== undefined) ? existingBill.rent : (rent - discount);
+
             const eUnits = Math.max(0, ec - ep);
             const wUnits = Math.max(0, wc - wp);
             const minWater = occupants === 1 ? 120 : 150;
-            const wTotal = Math.max(wUnits * (data.config.waterRate || 18), minWater);
-            const eTotal = eUnits * (data.config.elecRate || 8);
-            const total = (rent - discount + other) + eTotal + wTotal;
-
-            const existingIdx = data.bills.findIndex(b => b.roomId === roomId && b.month === month);
-            const billId = existingIdx > -1 ? data.bills[existingIdx].id : (Date.now() + Math.floor(Math.random() * 1000));
-            const billStatus = existingIdx > -1 ? data.bills[existingIdx].status : 'unpaid';
+            const wTotal = Math.max(wUnits * waterRate, minWater);
+            const eTotal = eUnits * elecRate;
+            const total = (billRent + other) + eTotal + wTotal;
 
             const newBill = { 
                 id: billId, 
                 roomId, 
                 month, 
-                rent: rent - discount, 
+                rent: billRent, 
                 otherCost: other, 
-                elec: { prev: ep, curr: ec, units: eUnits, total: eTotal }, 
-                water: { prev: wp, curr: wc, units: wUnits, total: wTotal }, 
+                elec: { prev: ep, curr: ec, units: eUnits, rate: elecRate, total: eTotal }, 
+                water: { prev: wp, curr: wc, units: wUnits, rate: waterRate, total: wTotal }, 
                 total, 
                 status: billStatus, 
                 tenantName: custName 
@@ -3042,15 +3075,20 @@ const app = {
         roomSelect.value = b.roomId;
         document.getElementById('bm-month').value = b.month;
 
-        document.getElementById('bm-elec-rate-badge').innerText = `${data.config.elecRate || 8} บ./หน่วย`;
-        document.getElementById('bm-water-rate-badge').innerText = `${data.config.waterRate || 18} บ./หน่วย`;
+        const booking = data.bookings.find(k => k.roomId === b.roomId && k.status === 'active');
+        const defaultRent = booking ? (booking.rentPrice - (booking.discount || 0)) : (data.config.monthlyRent || 3500);
+        document.getElementById('bm-rent').value = (b.rent !== undefined) ? b.rent : defaultRent;
+
+        const defaultElecRate = data.config.elecRate || 8;
+        const defaultWaterRate = data.config.waterRate || 18;
+        document.getElementById('bm-elec-rate').value = (b.elec && b.elec.rate !== undefined) ? b.elec.rate : defaultElecRate;
+        document.getElementById('bm-water-rate').value = (b.water && b.water.rate !== undefined) ? b.water.rate : defaultWaterRate;
 
         document.getElementById('bm-elec-prev').value = b.elec ? b.elec.prev : 0;
         document.getElementById('bm-elec-curr').value = b.elec ? b.elec.curr : '';
         document.getElementById('bm-water-prev').value = b.water ? b.water.prev : 0;
         document.getElementById('bm-water-curr').value = b.water ? b.water.curr : '';
 
-        const booking = data.bookings.find(k => k.roomId === b.roomId && k.status === 'active');
         let tName = b.tenantName || '-';
         if (tName === '-' && booking) {
             const c = data.customers.find(x => x.id == booking.customerId);
@@ -3080,8 +3118,13 @@ const app = {
         const existingBill = data.bills.find(b => b.roomId === roomId && b.month === month);
         const prevBill = data.bills.find(b => b.roomId === roomId && b.month === prevMonthStr);
 
-        document.getElementById('bm-elec-rate-badge').innerText = `${data.config.elecRate || 8} บ./หน่วย`;
-        document.getElementById('bm-water-rate-badge').innerText = `${data.config.waterRate || 18} บ./หน่วย`;
+        const defaultRent = booking ? (booking.rentPrice - (booking.discount || 0)) : (data.config.monthlyRent || 3500);
+        document.getElementById('bm-rent').value = (existingBill && existingBill.rent !== undefined) ? existingBill.rent : defaultRent;
+
+        const defaultElecRate = data.config.elecRate || 8;
+        const defaultWaterRate = data.config.waterRate || 18;
+        document.getElementById('bm-elec-rate').value = (existingBill && existingBill.elec && existingBill.elec.rate !== undefined) ? existingBill.elec.rate : defaultElecRate;
+        document.getElementById('bm-water-rate').value = (existingBill && existingBill.water && existingBill.water.rate !== undefined) ? existingBill.water.rate : defaultWaterRate;
 
         let ep = existingBill ? existingBill.elec.prev : (prevBill ? prevBill.elec.curr : 0);
         let ec = existingBill ? existingBill.elec.curr : '';
@@ -3099,9 +3142,21 @@ const app = {
     calcBillMeterModalTotal: () => {
         const roomId = document.getElementById('bm-room-id').value;
         const booking = data.bookings.find(b => b.roomId === roomId && b.status === 'active');
-        const rent = booking ? (booking.rentPrice - (booking.discount || 0)) : (data.config.monthlyRent || 3500);
         const other = booking ? (booking.otherCost || 0) : 0;
         const occupants = booking ? (booking.occupants || 1) : 1;
+
+        const rentInput = document.getElementById('bm-rent');
+        const defaultRent = booking ? (booking.rentPrice - (booking.discount || 0)) : (data.config.monthlyRent || 3500);
+        let rent = rentInput && rentInput.value !== '' ? parseFloat(rentInput.value) : defaultRent;
+        if (isNaN(rent) || rent < 0) rent = 0;
+
+        const elecRateInput = document.getElementById('bm-elec-rate');
+        let elecRate = elecRateInput && elecRateInput.value !== '' ? parseFloat(elecRateInput.value) : (data.config.elecRate || 8);
+        if (isNaN(elecRate) || elecRate < 0) elecRate = 8;
+
+        const waterRateInput = document.getElementById('bm-water-rate');
+        let waterRate = waterRateInput && waterRateInput.value !== '' ? parseFloat(waterRateInput.value) : (data.config.waterRate || 18);
+        if (isNaN(waterRate) || waterRate < 0) waterRate = 18;
 
         const ep = parseFloat(document.getElementById('bm-elec-prev').value) || 0;
         const ecVal = document.getElementById('bm-elec-curr').value.trim();
@@ -3117,10 +3172,10 @@ const app = {
         // Elec
         if (ecVal !== '') {
             const eUnits = Math.max(0, ec - ep);
-            eCost = eUnits * (data.config.elecRate || 8);
+            eCost = eUnits * elecRate;
             document.getElementById('bm-elec-calc').innerHTML = ec < ep 
                 ? `<span class="text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> เลขใหม่น้อยกว่าเดิม!</span>`
-                : `<span class="text-success"><i class="fas fa-bolt text-warning"></i> ใช้ ${eUnits} หน่วย = ${eCost.toLocaleString()} บ.</span>`;
+                : `<span class="text-success"><i class="fas fa-bolt text-warning"></i> ใช้ ${eUnits} หน่วย (@${elecRate} บ.) = ${eCost.toLocaleString()} บ.</span>`;
         } else {
             document.getElementById('bm-elec-calc').innerText = '-';
         }
@@ -3129,10 +3184,10 @@ const app = {
         if (wcVal !== '') {
             const wUnits = Math.max(0, wc - wp);
             const minWater = occupants === 1 ? 120 : 150;
-            wCost = Math.max(wUnits * (data.config.waterRate || 18), minWater);
+            wCost = Math.max(wUnits * waterRate, minWater);
             document.getElementById('bm-water-calc').innerHTML = wc < wp 
                 ? `<span class="text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> เลขใหม่น้อยกว่าเดิม!</span>`
-                : `<span class="text-info"><i class="fas fa-tint text-primary"></i> ใช้ ${wUnits} หน่วย = ${wCost.toLocaleString()} บ. (ขั้นต่ำ ${minWater} บ.)</span>`;
+                : `<span class="text-info"><i class="fas fa-tint text-primary"></i> ใช้ ${wUnits} หน่วย (@${waterRate} บ.) = ${wCost.toLocaleString()} บ. (ขั้นต่ำ ${minWater} บ.)</span>`;
         } else {
             document.getElementById('bm-water-calc').innerText = '-';
         }
@@ -3158,8 +3213,21 @@ const app = {
         const cust = booking ? data.customers.find(c => c.id == booking.customerId) : null;
         const tenantName = cust ? cust.name : (booking ? 'ผู้เช่า' : '-');
         const occupants = booking ? (booking.occupants || 1) : 1;
-        const rent = booking ? (booking.rentPrice - (booking.discount || 0)) : (data.config.monthlyRent || 3500);
+        
+        const rentInput = document.getElementById('bm-rent');
+        const defaultRent = booking ? (booking.rentPrice - (booking.discount || 0)) : (data.config.monthlyRent || 3500);
+        let rent = rentInput && rentInput.value !== '' ? parseFloat(rentInput.value) : defaultRent;
+        if (isNaN(rent) || rent < 0) rent = 0;
+
         const other = booking ? (booking.otherCost || 0) : 0;
+
+        const elecRateInput = document.getElementById('bm-elec-rate');
+        let elecRate = elecRateInput && elecRateInput.value !== '' ? parseFloat(elecRateInput.value) : (data.config.elecRate || 8);
+        if (isNaN(elecRate) || elecRate < 0) elecRate = 8;
+
+        const waterRateInput = document.getElementById('bm-water-rate');
+        let waterRate = waterRateInput && waterRateInput.value !== '' ? parseFloat(waterRateInput.value) : (data.config.waterRate || 18);
+        if (isNaN(waterRate) || waterRate < 0) waterRate = 18;
 
         const ep = parseFloat(document.getElementById('bm-elec-prev').value) || 0;
         const ecVal = document.getElementById('bm-elec-curr').value.trim();
@@ -3183,22 +3251,23 @@ const app = {
         const eUnits = Math.max(0, ec - ep);
         const wUnits = Math.max(0, wc - wp);
         const minWater = occupants === 1 ? 120 : 150;
-        const wTotal = Math.max(wUnits * (data.config.waterRate || 18), minWater);
-        const eTotal = eUnits * (data.config.elecRate || 8);
+        const wTotal = Math.max(wUnits * waterRate, minWater);
+        const eTotal = eUnits * elecRate;
         const total = rent + other + eTotal + wTotal;
 
         const existingIdx = data.bills.findIndex(b => (billIdStr ? b.id == billIdStr : (b.roomId === roomId && b.month === month)));
         const targetId = existingIdx > -1 ? data.bills[existingIdx].id : (Date.now() + Math.floor(Math.random() * 1000));
 
         // In Billing tab, entering meter readings automatically marks bill as 'paid' immediately
+        // Storing rent, elec.rate, water.rate specifically for this month's bill
         const billObj = {
             id: targetId,
             roomId,
             month,
-            rent,
+            rent, // เซฟค่าห้องเฉพาะรอบบิลนี้
             otherCost: other,
-            elec: { prev: ep, curr: ec, units: eUnits, total: eTotal },
-            water: { prev: wp, curr: wc, units: wUnits, total: wTotal },
+            elec: { prev: ep, curr: ec, units: eUnits, rate: elecRate, total: eTotal },
+            water: { prev: wp, curr: wc, units: wUnits, rate: waterRate, total: wTotal },
             total,
             status: 'paid', // ถือว่าจ่ายแล้วทันที
             tenantName
@@ -3236,7 +3305,9 @@ const app = {
             line = data.config.lineId2 || '0890043915';
         }
 
-        const text = `📋 ใบแจ้งหนี้ Chumchuen Homey\nประจำเดือน: ${thaiMonth(b.month)}\nห้อง: ${b.roomId} (${b.tenantName || '-'})\nเลขที่: ${invNo}\n--------------------\n• ค่าเช่า: ${b.rent.toLocaleString()} บ.\n• ค่าไฟ (${b.elec.units} หน่วย): ${b.elec.total.toLocaleString()} บ.\n• ค่าน้ำ (${b.water.units} หน่วย): ${b.water.total.toLocaleString()} บ.${b.otherCost > 0 ? `\n• อื่นๆ: ${b.otherCost.toLocaleString()} บ.` : ''}\n--------------------\n💰 ยอดสุทธิ: ${b.total.toLocaleString()} บาท\n\n📌 ช่องทางชำระเงิน:\n${bank}\nเลขที่: ${acc}\nชื่อบัญชี: ${accName}\n📲 แจ้งโอนที่ Line ID: ${line}`;
+        const eRate = (b.elec && b.elec.rate !== undefined) ? b.elec.rate : (data.config.elecRate || 8);
+        const wRate = (b.water && b.water.rate !== undefined) ? b.water.rate : (data.config.waterRate || 18);
+        const text = `📋 ใบแจ้งหนี้ Chumchuen Homey\nประจำเดือน: ${thaiMonth(b.month)}\nห้อง: ${b.roomId} (${b.tenantName || '-'})\nเลขที่: ${invNo}\n--------------------\n• ค่าเช่า: ${b.rent.toLocaleString()} บ.\n• ค่าไฟ (${b.elec.units} หน่วย @ ${eRate} บ.): ${b.elec.total.toLocaleString()} บ.\n• ค่าน้ำ (${b.water.units} หน่วย @ ${wRate} บ.): ${b.water.total.toLocaleString()} บ.${b.otherCost > 0 ? `\n• อื่นๆ: ${b.otherCost.toLocaleString()} บ.` : ''}\n--------------------\n💰 ยอดสุทธิ: ${b.total.toLocaleString()} บาท\n\n📌 ช่องทางชำระเงิน:\n${bank}\nเลขที่: ${acc}\nชื่อบัญชี: ${accName}\n📲 แจ้งโอนที่ Line ID: ${line}`;
         
         navigator.clipboard.writeText(text).then(() => {
             app.toast('คัดลอกสำเร็จ', `คัดลอกข้อมูลบิลห้อง ${b.roomId} สำหรับส่งใน LINE แล้ว`, 'success');
@@ -3342,6 +3413,8 @@ const app = {
         const invNo = `INV-${b.month.replace('-','')}-${b.roomId}`;
         const otherCost = b.otherCost || 0;
         const otherRow = otherCost > 0 ? `<tr><td class="py-3">ค่าบริการอื่นๆ (Other Costs)</td><td class="text-end py-3">${otherCost.toLocaleString()}</td></tr>` : '';
+        const eRate = (b.elec && b.elec.rate !== undefined) ? b.elec.rate : (data.config.elecRate || 8);
+        const wRate = (b.water && b.water.rate !== undefined) ? b.water.rate : (data.config.waterRate || 18);
 
         const [yStr, mStr] = b.month.split('-');
         const billYear = parseInt(yStr);
@@ -3391,14 +3464,14 @@ const app = {
                         ${remarks}
                         <tr>
                             <td class="py-3">
-                                ค่าไฟฟ้า (${b.elec.units} หน่วย)<br>
+                                ค่าไฟฟ้า (${b.elec.units} หน่วย @ ${eRate} บ.)<br>
                                 <small class="text-muted">(เลขเดิม ${b.elec.prev} <i class="fas fa-arrow-right"></i> เลขใหม่ ${b.elec.curr})</small>
                             </td>
                             <td class="text-end py-3">${b.elec.total.toLocaleString()}</td>
                         </tr>
                         <tr>
                             <td class="py-3">
-                                ค่าน้ำประปา (${b.water.units} หน่วย)<br>
+                                ค่าน้ำประปา (${b.water.units} หน่วย @ ${wRate} บ.)<br>
                                 <small class="text-muted">(เลขเดิม ${b.water.prev} <i class="fas fa-arrow-right"></i> เลขใหม่ ${b.water.curr})</small>
                             </td>
                             <td class="text-end py-3">${b.water.total.toLocaleString()}</td>
